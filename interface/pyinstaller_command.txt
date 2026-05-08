@@ -1,0 +1,1 @@
+pyinstaller --onefile --noconsole --collect-all customtkinter --add-data "blocks.json;." main.py

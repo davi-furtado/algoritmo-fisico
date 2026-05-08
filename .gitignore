@@ -1,5 +1,5 @@
-__pycache__/
-backend/__pycache__/
-frontend/*/.env
-frontend/*/node_modules/
-frontend/mobile/.expo/
+**/__pycache__/
+*.spec
+mobile/.env
+mobile/node_modules/
+mobile/.expo/

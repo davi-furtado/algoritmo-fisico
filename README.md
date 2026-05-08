@@ -1,12 +1,11 @@
 <div align="center">
   <h1>APP Algoritmo Físico</h1>
 
-  <img src="https://img.shields.io/badge/react-%2320232a.svg?style=for-the-badge&logo=react&logoColor=%2361DAFB">
-  <img src="https://img.shields.io/badge/vite-%23646CFF.svg?style=for-the-badge&logo=vite&logoColor=white">
-  <img src="https://img.shields.io/badge/react_native-%2320232a.svg?style=for-the-badge&logo=react&logoColor=%2361DAFB">
-  <img src="https://img.shields.io/badge/javascript-%23323330.svg?style=for-the-badge&logo=javascript&logoColor=%23F7DF1E">
   <img src="https://img.shields.io/badge/python-3670A0?style=for-the-badge&logo=python&logoColor=ffdd54">
   <img src="https://img.shields.io/badge/FastAPI-005571?style=for-the-badge&logo=fastapi">
+  <img src="https://img.shields.io/badge/CustomTkinter-222528?style=for-the-badge&logo=python&logoColor=white">
+  <img src="https://img.shields.io/badge/react_native-%2320232a.svg?style=for-the-badge&logo=react&logoColor=%2361DAFB">
+  <img src="https://img.shields.io/badge/javascript-%23323330.svg?style=for-the-badge&logo=javascript&logoColor=%23F7DF1E">
 </div>
 
 <p align="right">
@@ -15,24 +14,28 @@ Aplicativo que escaneia pseudocódigos em blocos (algoritmos físicos) a partir 
 
 # Funcionalidades
 
-- Captura de imagem pela câmera ou galeria
+- Captura de imagem pela câmera ou galeria (mobile)
+- Seleção de imagem ou pasta com imagens (desktop)
 - Reconhecimento de marcadores **ArUco**
-- Conversão do pseudocódigo para Python no próprio backend
+- Conversão do pseudocódigo para Python
 - Execução do código gerado
-- Retorno do código e da saída
+- Retorno do código e da saída (ou erro)
 - Indentação automática do pseudocódigo
 - Indentação automática do Python gerado
-- Visualização ampliada da imagem capturada
+- Visualização ampliada da imagem capturada (mobile)
+- Abertura da imagem no visualizador padrão (desktop)
+- Pseudocódigo e Python exibidos **lado a lado** (desktop)
+- Geração de executável `.exe` via PyInstaller (desktop)
 
 # Estrutura do Projeto
 
 <details>
-  <summary>Filetree</summary>
+  <summary>FileTree</summary>
 
 ```
 app-algoritmo-fisico/
 │
-├── backend/
+├── api/
 │   ├── aruco_reader.py
 │   ├── blocks.json
 │   ├── conversor.py
@@ -40,6 +43,17 @@ app-algoritmo-fisico/
 │   ├── main.py
 │   ├── mono_return.py
 │   └── requirements.txt
+│
+├── api_tests/
+│   ├── pics/
+│   │   ├── img1.jpg
+│   │   ├── img2.jpg
+│   │   └── ...
+│   │
+│   ├── multiple_test.py
+│   ├── requirements.txt
+│   ├── results.json
+│   └── test.py
 │
 ├── blocks/
 │   ├── arucos/
@@ -53,83 +67,73 @@ app-algoritmo-fisico/
 │   │   └── ...
 │   │
 │   ├── blocks.json
-│   ├── blocks.pdf
 │   ├── generator.py
 │   ├── problems.pdf
 │   └── requirements.txt
 │
-├── frontend/
-│   ├── mobile/
-│   │   ├── assets/
-│   │   │   ├── images/
-│   │   │   │   ├── adaptive-icon.png
-│   │   │   │   ├── favicon.png
-│   │   │   │   ├── icon.png
-│   │   │   │   └── splash-icon.png
-│   │   │   │
-│   │   │   └── JetBrainsMonoNL-Bold.ttf
-│   │   │
-│   │   ├── components/
-│   │   │   ├── CodeBox.jsx
-│   │   │   ├── InsertPhotoBtn.jsx
-│   │   │   └── SegmentedToggle.jsx
-│   │   │
-│   │   ├── .env
-│   │   ├── app.json
-│   │   ├── App.jsx
-│   │   ├── index.js
-│   │   ├── package-lock.json
-│   │   ├── package.json
-│   │   └── styles.js
+├── interface/
+│   ├── dist/
+│   │   └── main.exe
 │   │
-│   └── web/
-│       ├── public/
-│       │   ├── favicon.svg
-│       │   └── icons.svg
-│       │
-│       ├── src/
-│       │   ├── components/
-│       │   │   ├── CodeBox.jsx
-│       │   │   ├── InsertPhotoBtn.jsx
-│       │   │   └── SegmentedToggle.jsx
-│       │   │
-│       │   ├── .env
-│       │   ├── App.jsx
-│       │   ├── main.jsx
-│       │   └── styles.css
-│       │
-│       ├── eslint.config.js
-│       ├── index.html
-│       ├── package-lock.json
-│       ├── package.json
-│       └── vite.config.js
+│   ├── aruco_reader.py
+│   ├── blocks.json
+│   ├── conversor.py
+│   ├── executor.py
+│   ├── img_reader.py
+│   ├── main.py
+│   ├── pyinstaller_command.txt
+│   └── requirements.txt
 │
-├── tests/
-│   ├── pics/
-│   │   ├── img1.jpg
-│   │   ├── img2.jpg
-│   │   └── ...
+├── mobile/
+│   ├── assets/
+│   │   ├── images/
+│   │   │   ├── adaptive-icon.png
+│   │   │   ├── favicon.png
+│   │   │   ├── icon.png
+│   │   │   └── splash-icon.png
+│   │   │
+│   │   └── JetBrainsMonoNL-Bold.ttf
 │   │
-│   ├── multiple_test.py
-│   ├── requirements.txt
-│   ├── results.json
-│   └── test.py
+│   ├── components/
+│   │   ├── CodeBox.jsx
+│   │   ├── InsertPhotoBtn.jsx
+│   │   └── SegmentedToggle.jsx
+│   │
+│   ├── app.json
+│   ├── App.jsx
+│   ├── index.js
+│   ├── package-lock.json
+│   ├── package.json
+│   └── styles.js
 │
 ├── .gitignore
 ├── README.md
 ├── run_all.py
-└── set_envs.py
+└── set_env.py
 ```
 
 Filetree gerada com a biblioteca [`pyletree`](https://github.com/davi-furtado/pyletree)
 
 </details>
 
-## Front-end
+## Interface Desktop
 
-O front-end é dividido em duas implementações: mobile e web.
+Tecnologias utilizadas:
 
-### Mobile
+- Python
+- CustomTkinter
+- OpenCV (ArUco)
+
+Interface gráfica para desktop que processa imagens **localmente**, sem depender da API. Permite:
+
+- Selecionar uma **imagem avulsa** ou uma **pasta com imagens**
+- Seletor dropdown para escolher a imagem da pasta
+- Exibição do pseudocódigo e Python **lado a lado**
+- Caixa de saída com título dinâmico: **"Saída"** em caso de sucesso ou **"Erro"** em caso de falha
+- Abrir a imagem selecionada no visualizador padrão do sistema
+- Geração de executável `.exe` via PyInstaller
+
+## Mobile
 
 Tecnologias utilizadas:
 
@@ -140,24 +144,11 @@ Tecnologias utilizadas:
 Responsável pela interface do aplicativo móvel, incluindo:
 
 - Captura ou seleção de imagens
-- Envio da imagem ao backend
+- Envio da imagem à API
 - Exibição do pseudocódigo reconhecido, Python gerado e saída da execução
+- Título dinâmico: **"Saída"** ou **"Erro"** conforme o retorno
 
-### Web
-
-Tecnologias utilizadas:
-
-- React
-- Vite
-- JavaScript
-
-Responsável pela interface web, oferecendo funcionalidades similares ao mobile:
-
-- Seleção de imagens
-- Envio da imagem ao backend
-- Exibição do pseudocódigo reconhecido, Python gerado e saída da execução
-
-## Back-end
+## API
 
 Tecnologias utilizadas:
 
@@ -165,7 +156,7 @@ Tecnologias utilizadas:
 - FastAPI
 - OpenCV (ArUco)
 
-O backend é responsável por:
+A API é responsável por:
 
 1. Detectar os marcadores ArUco na imagem
 2. Reconstruir o pseudocódigo a partir dos marcadores
@@ -188,7 +179,7 @@ API FastAPI que atua como ponto de entrada, responsável por:
 Módulo dedicado à visão computacional com OpenCV. Responsável por:
 
 - Detectar os marcadores ArUco na imagem
-- Reconstruir o texto do pseudocódigo baseado nas posições espaciais dos idenficadores
+- Reconstruir o texto do pseudocódigo baseado nas posições espaciais dos identificadores
 
 #### `executor.py`
 
@@ -214,24 +205,47 @@ API que tem um retorno único independente da imagem enviada. Pode ser usada par
 
 #### `requirements.txt`
 
-Arquivo com todas as dependências usadas no back-end.
+Arquivo com todas as dependências usadas na API.
 
 # Como rodar?
 
 ## Requisitos
 
 - Python 3.8 ou superior
-- Node.js 14 ou superior
-- npm 6 ou superior
+- Node.js 14 ou superior (para o mobile)
+- npm 6 ou superior (para o mobile)
 
-## Configurando o Back-end
+## Interface Desktop
 
-1. Abra um terminal na pasta `backend`
-2. Instale as dependências executando o comando:
+1. Abra um terminal na pasta `interface`
+2. Instale as dependências:
    ```bash
    pip install -r requirements.txt
    ```
-3. Inicie a API com o comando:
+3. Execute a interface:
+   ```bash
+   python main.py
+   ```
+
+### Gerando o executável
+
+Para gerar um `.exe` standalone, use o PyInstaller dentro da pasta `interface`:
+
+```bash
+pip install pyinstaller
+pyinstaller --onefile --noconsole --collect-all customtkinter --add-data "blocks.json;." main.py
+```
+
+O executável será gerado em `interface/dist/main.exe`.
+
+## API
+
+1. Abra um terminal na pasta `api`
+2. Instale as dependências:
+   ```bash
+   pip install -r requirements.txt
+   ```
+3. Inicie a API:
    ```bash
    python main.py
    ```
@@ -240,14 +254,14 @@ Arquivo com todas as dependências usadas no back-end.
    uvicorn main:app --host 0.0.0.0
    ```
 
-## Configurando o Front-end [Mobile]
+## Mobile
 
-1. Crie o arquivo `frontend/mobile/.env` e coloque o seu **IP local** na variável `IP` para que o aplicativo consiga comunicar com o backend localmente. Deve ficar assim:
+1. Crie o arquivo `mobile/.env` e coloque o seu **IP local** na variável `IP` para que o aplicativo consiga comunicar com a API localmente. Deve ficar assim:
    ```bash
-   IP=w.x.y.x
+   IP=w.x.y.z
    ```
-2. Abra um terminal na pasta `frontend/mobile`
-3. Instale as dependências executando:
+2. Abra um terminal na pasta `mobile`
+3. Instale as dependências:
    ```bash
    npm install
    ```
@@ -257,43 +271,18 @@ Arquivo com todas as dependências usadas no back-end.
    ```
 5. Para rodar no celular, baixe o aplicativo **Expo Go** e escaneie o QR code exibido.
 
-## Configurando o Front-end [Web]
-
-1. Crie o arquivo `frontend/web/.env` e coloque o seu **IP local** na variável `IP` para que o aplicativo consiga comunicar com o backend localmente. Deve ficar assim:
-   ```bash
-   IP=w.x.y.x
-   ```
-2. Abra um terminal na pasta `frontend/web`
-3. Instale as dependências executando:
-   ```bash
-   npm install
-   ```
-4. Inicie o servidor de desenvolvimento:
-   ```bash
-   npm run dev -- --host 0.0.0.0 --port 4000
-   ```
-5. Abra o navegador no endereço `http://localhost:4000` ou `http://<seu_ip>:4000`.
-
 ## Usando os scripts de automação
 
-O arquivo `set_envs.py` automatiza a criação dos arquivos `.env` para o frontend mobile e o frontend web, preenchendo a variável `IP` com o endereço IP local da máquina.
+O arquivo `set_env.py` automatiza a criação do arquivo `.env` para o mobile, preenchendo a variável `IP` com o endereço IP local da máquina.
 
-Ele reescreve os arquivos:
+Ele reescreve o arquivo:
 
-- `frontend/mobile/.env`
-- `frontend/web/.env`
+- `mobile/.env`
 
-O arquivo `run_all.py` inicia os três serviços do projeto automaticamente:
+O arquivo `run_all.py` inicia a API e o mobile automaticamente:
 
-- `backend`
-- `frontend/mobile`
-- `frontend/web`
-
-Ele tenta iniciar:
-
-- `uvicorn` para o backend
-- `expo start` para o app mobile
-- `npm run dev` para o web
+- `api` (uvicorn)
+- `mobile` (expo start)
 
 Para usar, execute o script na raiz do projeto:
 
@@ -304,11 +293,6 @@ python run_all.py
 # Pasta de blocos físicos
 
 O projeto possui uma pasta `blocks` com os materiais necessários para utilizar o sistema com **algoritmos físicos**.
-
-## `blocks.pdf`
-
-PDF contendo **todos os blocos de pseudocódigo prontos para impressão**.
-Os blocos podem ser recortados e utilizados fisicamente para montar algoritmos.
 
 ## `problems.pdf`
 
@@ -333,7 +317,7 @@ Exemplo simplificado:
 }
 ```
 
-Esse arquivo também existe no **backend**, onde é utilizado durante o reconhecimento dos blocos.
+Esse arquivo também existe na **API** e na **interface desktop**, onde é utilizado durante o reconhecimento dos blocos.
 
 ## `generator.py`
 
@@ -343,13 +327,21 @@ Ele cria todas as imagens dentro da pasta `blocks/arucos`.
 
 # Fluxo de funcionamento
 
-1. O front-end envia uma imagem para o endpoint `/convert`
-2. O backend usa **OpenCV ArUco** para detectar os marcadores
+## Via API (Mobile)
+
+1. O mobile envia uma imagem para o endpoint `/convert`
+2. A API usa **OpenCV ArUco** para detectar os marcadores
 3. Os **IDs detectados são convertidos em palavras** usando `blocks.json`
 4. O pseudocódigo gerado é enviado para `toPython()` (`conversor.py`)
 5. O pseudocódigo é transformado em **código Python válido**
-6. O backend executa o código usando `exec`
+6. A API executa o código usando `exec`
 7. A API retorna: pseudocódigo reconhecido, código Python gerado e saída da execução
+
+## Via Interface Desktop
+
+1. O usuário seleciona uma imagem ou pasta
+2. O `img_reader.py` processa a imagem **localmente** usando os mesmos módulos (`aruco_reader`, `conversor`, `executor`)
+3. Os resultados são exibidos diretamente na interface: pseudocódigo e Python lado a lado, com a saída (ou erro) acima
 
 # Conversão de pseudocódigo
 
@@ -415,7 +407,7 @@ Isso garante que o código gerado seja **executável imediatamente**.
 
 # Pasta de testes
 
-A pasta `tests` contém utilitários projetados para validar e debugar o back-end (em específico a API de conversão de imagens) rapidamente, sem a necessidade de rodar o front-end simultaneamente. O ambiente de testes possui seu próprio arquivo `requirements.txt` e uma subpasta `fotos/` com imagens de amostra para realizar testes pré-configurados.
+A pasta `api_tests` contém utilitários projetados para validar e debugar a API de conversão de imagens rapidamente, sem a necessidade de rodar o front-end simultaneamente. O ambiente de testes possui seu próprio arquivo `requirements.txt` e uma subpasta `pics/` com imagens de amostra para realizar testes pré-configurados.
 
 ## `test.py`
 
