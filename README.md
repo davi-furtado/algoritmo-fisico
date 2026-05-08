@@ -82,7 +82,8 @@ app-algoritmo-fisico/
 │   ├── img_reader.py
 │   ├── main.py
 │   ├── pyinstaller_command.txt
-│   └── requirements.txt
+│   ├── requirements.txt
+│   └── utils.py
 │
 ├── mobile/
 │   ├── assets/
@@ -233,10 +234,10 @@ Para gerar um `.exe` standalone, use o PyInstaller dentro da pasta `interface`:
 
 ```bash
 pip install pyinstaller
-pyinstaller --onefile --noconsole --collect-all customtkinter --add-data "blocks.json;." main.py
+pyinstaller --onefile --noconsole --add-data "blocks.json;." main.py
 ```
 
-O executável será gerado em `interface/dist/main.exe`.
+O executável será gerado em `interface/dist/main.exe`. O arquivo `utils.py` é responsável por resolver os caminhos temporários dos arquivos embutidos pelo PyInstaller (como o `blocks.json`).
 
 ## API
 

@@ -7,7 +7,9 @@ from cv2.aruco import (
 )
 from json import load
 
-with open('blocks.json') as f:
+from utils import resource_path
+
+with open(resource_path('blocks.json')) as f:
     blocks = load(f)
 
 dictionary = getPredefinedDictionary(DICT_5X5_100)

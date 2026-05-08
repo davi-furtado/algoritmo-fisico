@@ -2,21 +2,14 @@ from customtkinter import *
 from tkinter import filedialog
 from os import listdir, path, startfile
 from threading import Thread
+from multiprocessing import freeze_support
 
 from img_reader import read_img
 
 EXTENSIONS = {'.png', '.jpg', '.jpeg', '.webp', '.bmp'}
-LINE_HEIGHT = 24
+LINE_HEIGHT = 28
 MAX_OUTPUT_LINES = 8
 MAX_CODE_LINES = 20
-
-set_appearance_mode('dark')
-set_default_color_theme('blue')
-
-window = CTk()
-window.title('Progrease')
-window.geometry('960x700')
-window.minsize(760, 520)
 
 folder = ''
 images = []
@@ -46,15 +39,15 @@ def show_result(data):
     run_btn.configure(state='normal')
 
     if 'error' in data:
-        set_text(output_box, data['error'], MAX_OUTPUT_LINES)
+        set_text(output_box, str(data['error']), MAX_OUTPUT_LINES)
         output_title.configure(text='Erro', text_color='#e74c3c')
         output_box.configure(text_color='#e74c3c')
         set_text(pseudo_box, '')
         set_text(python_box, '')
     else:
-        set_text(pseudo_box, data.get('pseudocode', ''), MAX_CODE_LINES)
-        set_text(python_box, data.get('python', ''), MAX_CODE_LINES)
-        set_text(output_box, data.get('output', ''), MAX_OUTPUT_LINES)
+        set_text(pseudo_box, str(data.get('pseudocode', '')), MAX_CODE_LINES)
+        set_text(python_box, str(data.get('python', '')), MAX_CODE_LINES)
+        set_text(output_box, str(data.get('output', '')), MAX_OUTPUT_LINES)
         output_title.configure(text='Saída', text_color='#bfbfbf')
         output_box.configure(text_color='#0f0')
 
@@ -129,120 +122,128 @@ def open_image():
         startfile(current_file)
 
 
-# ─── Top bar ───
-top = CTkFrame(window, fg_color='transparent')
-top.pack(fill='x', padx=16, pady=(16, 0))
+if __name__ == '__main__':
+    freeze_support()
+    
+    set_appearance_mode('dark')
+    set_default_color_theme('blue')
 
-CTkButton(
-    top, text='🖼  Selecionar Imagem',
-    command=select_image,
-    height=42, corner_radius=8,
-    font=CTkFont(size=16, weight='bold')
-).pack(side='left')
+    window = CTk()
+    window.title('Progrease')
+    window.geometry('960x700')
+    window.minsize(760, 520)
 
-CTkButton(
-    top, text='📂  Selecionar Pasta',
-    command=select_folder,
-    height=42, corner_radius=8,
-    font=CTkFont(size=16, weight='bold')
-).pack(side='left', padx=(8, 0))
+    # ─── Top bar ───
+    top = CTkFrame(window, fg_color='transparent')
+    top.pack(fill='x', padx=16, pady=(16, 0))
 
-open_btn = CTkButton(
-    top, text='👁  Ver Imagem',
-    command=open_image,
-    height=42, corner_radius=8,
-    font=CTkFont(size=16, weight='bold'),
-    fg_color='#6c5ce7', hover_color='#5a4bd1'
-)
-open_btn.pack(side='left', padx=(8, 0))
+    CTkButton(
+        top, text='🖼  Selecionar Imagem',
+        command=select_image,
+        height=42, corner_radius=8,
+        font=CTkFont(size=16, weight='bold')
+    ).pack(side='left')
 
-path_label = CTkLabel(
-    top, text='',
-    font=CTkFont(size=15), text_color='gray60'
-)
-path_label.pack(side='left', padx=12)
+    CTkButton(
+        top, text='📂  Selecionar Pasta',
+        command=select_folder,
+        height=42, corner_radius=8,
+        font=CTkFont(size=16, weight='bold')
+    ).pack(side='left', padx=(8, 0))
 
-# ─── Image selector row ───
-sel_row = CTkFrame(window, fg_color='transparent')
-sel_row.pack(fill='x', padx=16, pady=(10, 0))
+    open_btn = CTkButton(
+        top, text='👁  Ver Imagem',
+        command=open_image,
+        height=42, corner_radius=8,
+        font=CTkFont(size=16, weight='bold')
+    )
+    open_btn.pack(side='left', padx=(8, 0))
 
-CTkLabel(
-    sel_row, text='Imagem:',
-    font=CTkFont(size=16, weight='bold')
-).pack(side='left')
+    path_label = CTkLabel(
+        top, text='',
+        font=CTkFont(size=15), text_color='gray60'
+    )
+    path_label.pack(side='left', padx=12)
 
-img_menu = CTkOptionMenu(
-    sel_row, values=['—'],
-    width=340, height=38, corner_radius=8,
-    font=CTkFont(size=15),
-    state='disabled'
-)
-img_menu.pack(side='left', padx=8)
+    # ─── Image selector row ───
+    sel_row = CTkFrame(window, fg_color='transparent')
+    sel_row.pack(fill='x', padx=16, pady=(10, 0))
 
-run_btn = CTkButton(
-    sel_row, text='▶  Processar',
-    command=process,
-    height=38, corner_radius=8,
-    font=CTkFont(size=15, weight='bold'),
-    fg_color='#2ecc71', hover_color='#27ae60',
-    state='disabled'
-)
-run_btn.pack(side='left', padx=(4, 0))
+    CTkLabel(
+        sel_row, text='Imagem:',
+        font=CTkFont(size=16, weight='bold')
+    ).pack(side='left')
 
-# ─── Loading ───
-loading_label = CTkLabel(
-    window, text='⏳ Processando...',
-    font=CTkFont(size=16), text_color='#f1c40f'
-)
+    img_menu = CTkOptionMenu(
+        sel_row, values=['—'],
+        width=340, height=38, corner_radius=8,
+        font=CTkFont(size=15),
+        state='disabled'
+    )
+    img_menu.pack(side='left', padx=8)
 
-# ─── Results ───
-results = CTkFrame(window, fg_color='transparent')
-results.pack(fill='both', expand=True, padx=16, pady=(12, 16))
-results.grid_columnconfigure(0, weight=1)
-results.grid_columnconfigure(1, weight=1)
-results.grid_rowconfigure(1, weight=0)
-results.grid_rowconfigure(3, weight=1)
+    run_btn = CTkButton(
+        sel_row, text='▶  Processar',
+        command=process,
+        height=38, corner_radius=8,
+        font=CTkFont(size=15, weight='bold'),
+        state='disabled'
+    )
+    run_btn.pack(side='left', padx=(4, 0))
 
-output_title = CTkLabel(
-    results, text='Saída',
-    font=CTkFont(size=16, weight='bold'),
-    text_color='#bfbfbf'
-)
-output_title.grid(row=0, column=0, columnspan=2, sticky='w', pady=(0, 4))
+    # ─── Loading ───
+    loading_label = CTkLabel(
+        window, text='⏳ Processando...',
+        font=CTkFont(size=16), text_color='#f1c40f'
+    )
 
-output_box = CTkTextbox(
-    results, font=CTkFont(family='Consolas', size=17),
-    fg_color='#222528', corner_radius=8,
-    text_color='#0f0', state='disabled', wrap='none',
-    height=LINE_HEIGHT
-)
-output_box.grid(row=1, column=0, columnspan=2, sticky='ew', pady=(0, 10))
+    # ─── Results ───
+    results = CTkFrame(window, fg_color='transparent')
+    results.pack(fill='both', expand=True, padx=16, pady=(12, 16))
+    results.grid_columnconfigure(0, weight=1)
+    results.grid_columnconfigure(1, weight=1)
+    results.grid_rowconfigure(1, weight=0)
+    results.grid_rowconfigure(3, weight=1)
 
-CTkLabel(
-    results, text='Pseudocódigo',
-    font=CTkFont(size=16, weight='bold'),
-    text_color='#bfbfbf'
-).grid(row=2, column=0, sticky='w', pady=(0, 4))
+    output_title = CTkLabel(
+        results, text='Saída',
+        font=CTkFont(size=16, weight='bold'),
+        text_color='#bfbfbf'
+    )
+    output_title.grid(row=0, column=0, columnspan=2, sticky='w', pady=(0, 4))
 
-CTkLabel(
-    results, text='Python',
-    font=CTkFont(size=16, weight='bold'),
-    text_color='#bfbfbf'
-).grid(row=2, column=1, sticky='w', pady=(0, 4))
+    output_box = CTkTextbox(
+        results, font=CTkFont(family='Consolas', size=20),
+        fg_color='#222528', corner_radius=8,
+        text_color='#0f0', state='disabled', wrap='none',
+        height=LINE_HEIGHT
+    )
+    output_box.grid(row=1, column=0, columnspan=2, sticky='ew', pady=(0, 10))
 
-pseudo_box = CTkTextbox(
-    results, font=CTkFont(family='Consolas', size=17),
-    fg_color='#222528', corner_radius=8,
-    text_color='#0f0', state='disabled', wrap='none'
-)
-pseudo_box.grid(row=3, column=0, sticky='nsew', padx=(0, 6))
+    CTkLabel(
+        results, text='Pseudocódigo',
+        font=CTkFont(size=16, weight='bold'),
+        text_color='#bfbfbf'
+    ).grid(row=2, column=0, sticky='w', pady=(0, 4))
 
-python_box = CTkTextbox(
-    results, font=CTkFont(family='Consolas', size=17),
-    fg_color='#222528', corner_radius=8,
-    text_color='#0f0', state='disabled', wrap='none'
-)
-python_box.grid(row=3, column=1, sticky='nsew', padx=(6, 0))
+    CTkLabel(
+        results, text='Python',
+        font=CTkFont(size=16, weight='bold'),
+        text_color='#bfbfbf'
+    ).grid(row=2, column=1, sticky='w', pady=(0, 4))
 
+    pseudo_box = CTkTextbox(
+        results, font=CTkFont(family='Consolas', size=20),
+        fg_color='#222528', corner_radius=8,
+        text_color='#0f0', state='disabled', wrap='none'
+    )
+    pseudo_box.grid(row=3, column=0, sticky='nsew', padx=(0, 6))
 
-window.mainloop()
+    python_box = CTkTextbox(
+        results, font=CTkFont(family='Consolas', size=20),
+        fg_color='#222528', corner_radius=8,
+        text_color='#0f0', state='disabled', wrap='none'
+    )
+    python_box.grid(row=3, column=1, sticky='nsew', padx=(6, 0))
+
+    window.mainloop()
