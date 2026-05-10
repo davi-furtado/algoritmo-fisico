@@ -20,7 +20,7 @@ def read_img(file):
     python_code = toPython(pseudocode)
 
     try:
-        output = safe_exec(python_code)
+        output = safe_exec(python_code).strip()
     except Exception as e:
         return {'error': f'Erro ao executar o código: {e}'}
 

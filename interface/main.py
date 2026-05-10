@@ -122,128 +122,123 @@ def open_image():
         startfile(current_file)
 
 
-if __name__ == '__main__':
-    freeze_support()
-    
-    set_appearance_mode('dark')
-    set_default_color_theme('blue')
+freeze_support()
 
-    window = CTk()
-    window.title('Progrease')
-    window.geometry('960x700')
-    window.minsize(760, 520)
+set_appearance_mode('dark')
+set_default_color_theme('blue')
 
-    # ─── Top bar ───
-    top = CTkFrame(window, fg_color='transparent')
-    top.pack(fill='x', padx=16, pady=(16, 0))
+window = CTk()
+window.title('Progrease')
+window.geometry('960x700')
+window.minsize(760, 520)
 
-    CTkButton(
-        top, text='🖼  Selecionar Imagem',
-        command=select_image,
-        height=42, corner_radius=8,
-        font=CTkFont(size=16, weight='bold')
-    ).pack(side='left')
+top = CTkFrame(window, fg_color='transparent')
+top.pack(fill='x', padx=16, pady=(16, 0))
 
-    CTkButton(
-        top, text='📂  Selecionar Pasta',
-        command=select_folder,
-        height=42, corner_radius=8,
-        font=CTkFont(size=16, weight='bold')
-    ).pack(side='left', padx=(8, 0))
+CTkButton(
+    top, text='🖼  Selecionar Imagem',
+    command=select_image,
+    height=42, corner_radius=8,
+    font=CTkFont(size=16, weight='bold')
+).pack(side='left')
 
-    open_btn = CTkButton(
-        top, text='👁  Ver Imagem',
-        command=open_image,
-        height=42, corner_radius=8,
-        font=CTkFont(size=16, weight='bold')
-    )
-    open_btn.pack(side='left', padx=(8, 0))
+CTkButton(
+    top, text='📂  Selecionar Pasta',
+    command=select_folder,
+    height=42, corner_radius=8,
+    font=CTkFont(size=16, weight='bold')
+).pack(side='left', padx=(8, 0))
 
-    path_label = CTkLabel(
-        top, text='',
-        font=CTkFont(size=15), text_color='gray60'
-    )
-    path_label.pack(side='left', padx=12)
+open_btn = CTkButton(
+    top, text='👁  Ver Imagem',
+    command=open_image,
+    height=42, corner_radius=8,
+    font=CTkFont(size=16, weight='bold')
+)
+open_btn.pack(side='left', padx=(8, 0))
 
-    # ─── Image selector row ───
-    sel_row = CTkFrame(window, fg_color='transparent')
-    sel_row.pack(fill='x', padx=16, pady=(10, 0))
+path_label = CTkLabel(
+    top, text='',
+    font=CTkFont(size=15), text_color='gray60'
+)
+path_label.pack(side='left', padx=12)
 
-    CTkLabel(
-        sel_row, text='Imagem:',
-        font=CTkFont(size=16, weight='bold')
-    ).pack(side='left')
+sel_row = CTkFrame(window, fg_color='transparent')
+sel_row.pack(fill='x', padx=16, pady=(10, 0))
 
-    img_menu = CTkOptionMenu(
-        sel_row, values=['—'],
-        width=340, height=38, corner_radius=8,
-        font=CTkFont(size=15),
-        state='disabled'
-    )
-    img_menu.pack(side='left', padx=8)
+CTkLabel(
+    sel_row, text='Imagem:',
+    font=CTkFont(size=16, weight='bold')
+).pack(side='left')
 
-    run_btn = CTkButton(
-        sel_row, text='▶  Processar',
-        command=process,
-        height=38, corner_radius=8,
-        font=CTkFont(size=15, weight='bold'),
-        state='disabled'
-    )
-    run_btn.pack(side='left', padx=(4, 0))
+img_menu = CTkOptionMenu(
+    sel_row, values=['—'],
+    width=340, height=38, corner_radius=8,
+    font=CTkFont(size=15),
+    state='disabled'
+)
+img_menu.pack(side='left', padx=8)
 
-    # ─── Loading ───
-    loading_label = CTkLabel(
-        window, text='⏳ Processando...',
-        font=CTkFont(size=16), text_color='#f1c40f'
-    )
+run_btn = CTkButton(
+    sel_row, text='▶  Processar',
+    command=process,
+    height=38, corner_radius=8,
+    font=CTkFont(size=15, weight='bold'),
+    state='disabled'
+)
+run_btn.pack(side='left', padx=(4, 0))
 
-    # ─── Results ───
-    results = CTkFrame(window, fg_color='transparent')
-    results.pack(fill='both', expand=True, padx=16, pady=(12, 16))
-    results.grid_columnconfigure(0, weight=1)
-    results.grid_columnconfigure(1, weight=1)
-    results.grid_rowconfigure(1, weight=0)
-    results.grid_rowconfigure(3, weight=1)
+loading_label = CTkLabel(
+    window, text='⏳ Processando...',
+    font=CTkFont(size=16), text_color='#f1c40f'
+)
 
-    output_title = CTkLabel(
-        results, text='Saída',
-        font=CTkFont(size=16, weight='bold'),
-        text_color='#bfbfbf'
-    )
-    output_title.grid(row=0, column=0, columnspan=2, sticky='w', pady=(0, 4))
+results = CTkFrame(window, fg_color='transparent')
+results.pack(fill='both', expand=True, padx=16, pady=(12, 16))
+results.grid_columnconfigure(0, weight=1)
+results.grid_columnconfigure(1, weight=1)
+results.grid_rowconfigure(1, weight=0)
+results.grid_rowconfigure(3, weight=1)
 
-    output_box = CTkTextbox(
-        results, font=CTkFont(family='Consolas', size=20),
-        fg_color='#222528', corner_radius=8,
-        text_color='#0f0', state='disabled', wrap='none',
-        height=LINE_HEIGHT
-    )
-    output_box.grid(row=1, column=0, columnspan=2, sticky='ew', pady=(0, 10))
+output_title = CTkLabel(
+    results, text='Saída',
+    font=CTkFont(size=16, weight='bold'),
+    text_color='#bfbfbf'
+)
+output_title.grid(row=0, column=0, columnspan=2, sticky='w', pady=(0, 4))
 
-    CTkLabel(
-        results, text='Pseudocódigo',
-        font=CTkFont(size=16, weight='bold'),
-        text_color='#bfbfbf'
-    ).grid(row=2, column=0, sticky='w', pady=(0, 4))
+output_box = CTkTextbox(
+    results, font=CTkFont(family='Consolas', size=20),
+    fg_color='#222528', corner_radius=8,
+    text_color='#0f0', state='disabled', wrap='none',
+    height=LINE_HEIGHT
+)
+output_box.grid(row=1, column=0, columnspan=2, sticky='ew', pady=(0, 10))
 
-    CTkLabel(
-        results, text='Python',
-        font=CTkFont(size=16, weight='bold'),
-        text_color='#bfbfbf'
-    ).grid(row=2, column=1, sticky='w', pady=(0, 4))
+CTkLabel(
+    results, text='Pseudocódigo',
+    font=CTkFont(size=16, weight='bold'),
+    text_color='#bfbfbf'
+).grid(row=2, column=0, sticky='w', pady=(0, 4))
 
-    pseudo_box = CTkTextbox(
-        results, font=CTkFont(family='Consolas', size=20),
-        fg_color='#222528', corner_radius=8,
-        text_color='#0f0', state='disabled', wrap='none'
-    )
-    pseudo_box.grid(row=3, column=0, sticky='nsew', padx=(0, 6))
+CTkLabel(
+    results, text='Python',
+    font=CTkFont(size=16, weight='bold'),
+    text_color='#bfbfbf'
+).grid(row=2, column=1, sticky='w', pady=(0, 4))
 
-    python_box = CTkTextbox(
-        results, font=CTkFont(family='Consolas', size=20),
-        fg_color='#222528', corner_radius=8,
-        text_color='#0f0', state='disabled', wrap='none'
-    )
-    python_box.grid(row=3, column=1, sticky='nsew', padx=(6, 0))
+pseudo_box = CTkTextbox(
+    results, font=CTkFont(family='Consolas', size=20),
+    fg_color='#222528', corner_radius=8,
+    text_color='#0f0', state='disabled', wrap='none'
+)
+pseudo_box.grid(row=3, column=0, sticky='nsew', padx=(0, 6))
 
-    window.mainloop()
+python_box = CTkTextbox(
+    results, font=CTkFont(family='Consolas', size=20),
+    fg_color='#222528', corner_radius=8,
+    text_color='#0f0', state='disabled', wrap='none'
+)
+python_box.grid(row=3, column=1, sticky='nsew', padx=(6, 0))
+
+window.mainloop()
