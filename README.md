@@ -125,7 +125,6 @@ app-algoritmo-fisico/
 │   ├── executor.py
 │   ├── img_reader.py
 │   ├── main.py
-│   ├── pyinstaller_command.txt
 │   ├── requirements.txt
 │   └── utils.py
 │
