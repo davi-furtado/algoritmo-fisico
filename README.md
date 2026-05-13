@@ -3,16 +3,38 @@
 
   <img src="https://img.shields.io/badge/python-3670A0?style=for-the-badge&logo=python&logoColor=ffdd54">
   <img src="https://img.shields.io/badge/FastAPI-005571?style=for-the-badge&logo=fastapi">
-  <img src="https://img.shields.io/badge/CustomTkinter-222528?style=for-the-badge&logo=python&logoColor=white">
   <img src="https://img.shields.io/badge/react_native-%2320232a.svg?style=for-the-badge&logo=react&logoColor=%2361DAFB">
   <img src="https://img.shields.io/badge/javascript-%23323330.svg?style=for-the-badge&logo=javascript&logoColor=%23F7DF1E">
+  <img src="https://img.shields.io/badge/CustomTkinter-222528?style=for-the-badge&logo=python&logoColor=white">
 </div>
 
-<p align="right">
+<p align="center">
 Aplicativo que escaneia pseudocódigos em blocos (algoritmos físicos) a partir de imagens e retorna o código equivalente em <b>Python</b> junto com a <b>saída da execução</b>.
 </p>
 
-# Funcionalidades
+<hr>
+
+## 📋 Sumário
+
+- [✨ Funcionalidades](#-funcionalidades)
+- [📂 Estrutura do Projeto](#-estrutura-do-projeto)
+  - [Interface Desktop](#interface-desktop)
+  - [Mobile](#mobile)
+  - [API](#api)
+- [🚀 Como rodar?](#-como-rodar)
+  - [Interface Desktop](#interface-desktop-1)
+  - [API](#api-1)
+  - [Mobile](#mobile-1)
+- [🧱 Pasta de blocos físicos](#-pasta-de-blocos-físicos)
+- [🔄 Fluxo de funcionamento](#-fluxo-de-funcionamento)
+- [⚙️ Conversão de pseudocódigo](#-conversão-de-pseudocódigo)
+- [🧪 Pasta de testes](#-pasta-de-testes)
+- [📤 Exemplo de retorno da API](#-exemplo-de-retorno-da-api)
+- [🌐 Próximos Passos (Deploy)](#-próximos-passos-deploy)
+
+<hr>
+
+# ✨ Funcionalidades
 
 - Captura de imagem pela câmera ou galeria (mobile)
 - Seleção de imagem ou pasta com imagens (desktop)
@@ -23,11 +45,11 @@ Aplicativo que escaneia pseudocódigos em blocos (algoritmos físicos) a partir 
 - Indentação automática do pseudocódigo
 - Indentação automática do Python gerado
 - Visualização ampliada da imagem capturada (mobile)
-- Abertura da imagem no visualizador padrão (desktop)
+- **Preview da imagem** na interface, com opção de clicar para abrir no visualizador padrão do sistema (desktop)
 - Pseudocódigo e Python exibidos **lado a lado** (desktop)
 - Geração de executável `.exe` via PyInstaller (desktop)
 
-# Estrutura do Projeto
+# 📂 Estrutura do Projeto
 
 <details>
   <summary>FileTree</summary>
@@ -108,9 +130,7 @@ app-algoritmo-fisico/
 │   └── styles.js
 │
 ├── .gitignore
-├── README.md
-├── run_all.py
-└── set_env.py
+└── README.md
 ```
 
 Filetree gerada com a biblioteca [`pyletree`](https://github.com/davi-furtado/pyletree)
@@ -131,7 +151,7 @@ Interface gráfica para desktop que processa imagens **localmente**, sem depende
 - Seletor dropdown para escolher a imagem da pasta
 - Exibição do pseudocódigo e Python **lado a lado**
 - Caixa de saída com título dinâmico: **"Saída"** em caso de sucesso ou **"Erro"** em caso de falha
-- Abrir a imagem selecionada no visualizador padrão do sistema
+- **Preview da imagem** na interface, com opção de clicar para abrir no visualizador padrão do sistema
 - Geração de executável `.exe` via PyInstaller
 
 ## Mobile
@@ -208,7 +228,7 @@ API que tem um retorno único independente da imagem enviada. Pode ser usada par
 
 Arquivo com todas as dependências usadas na API.
 
-# Como rodar?
+# 🚀 Como rodar?
 
 ## Requisitos
 
@@ -257,9 +277,9 @@ O executável será gerado em `interface/dist/main.exe`. O arquivo `utils.py` é
 
 ## Mobile
 
-1. Crie o arquivo `mobile/.env` e coloque o seu **IP local** na variável `IP` para que o aplicativo consiga comunicar com a API localmente. Deve ficar assim:
+1. Crie o arquivo `mobile/.env` e coloque o endereço completo da sua API (incluindo o IP local e porta) na variável `API_URL` para que o aplicativo consiga comunicar com a API localmente. Deve ficar assim:
    ```bash
-   IP=w.x.y.z
+   API_URL=http://w.x.y.z:8000
    ```
 2. Abra um terminal na pasta `mobile`
 3. Instale as dependências:
@@ -291,7 +311,7 @@ Para usar, execute o script na raiz do projeto:
 python run_all.py
 ```
 
-# Pasta de blocos físicos
+# 🧱 Pasta de blocos físicos
 
 O projeto possui uma pasta `blocks` com os materiais necessários para utilizar o sistema com **algoritmos físicos**.
 
@@ -326,7 +346,7 @@ Script responsável por **gerar automaticamente os marcadores ArUco utilizados n
 
 Ele cria todas as imagens dentro da pasta `blocks/arucos`.
 
-# Fluxo de funcionamento
+# 🔄 Fluxo de funcionamento
 
 ## Via API (Mobile)
 
@@ -344,7 +364,7 @@ Ele cria todas as imagens dentro da pasta `blocks/arucos`.
 2. O `img_reader.py` processa a imagem **localmente** usando os mesmos módulos (`aruco_reader`, `conversor`, `executor`)
 3. Os resultados são exibidos diretamente na interface: pseudocódigo e Python lado a lado, com a saída (ou erro) acima
 
-# Conversão de pseudocódigo
+# ⚙️ Conversão de pseudocódigo
 
 O arquivo `conversor.py` implementa um **parser simples baseado em tokens** responsável por:
 
@@ -406,7 +426,7 @@ O projeto utiliza:
 
 Isso garante que o código gerado seja **executável imediatamente**.
 
-# Pasta de testes
+# 🧪 Pasta de testes
 
 A pasta `api_tests` contém utilitários projetados para validar e debugar a API de conversão de imagens rapidamente, sem a necessidade de rodar o front-end simultaneamente. O ambiente de testes possui seu próprio arquivo `requirements.txt` e uma subpasta `pics/` com imagens de amostra para realizar testes pré-configurados.
 
@@ -418,13 +438,21 @@ Script simples onde o usuário informa o caminho local de uma imagem por meio da
 
 Script iterativo útil para processar e debugar um lote de imagens em sequência. Ele varre uma lista de caminhos de imagens (na variável iterável `paths`), as envia uma por vez para a API e compila os resultados (erros, pseudocódigo gerado e saídas em Python) num arquivo unificado independente chamado `results.json` na própria pasta.
 
-# Exemplo de retorno da API
+# 📤 Exemplo de retorno da API
 
 ```json
 {
-  "path": "pics/img2.jpg",
   "output": "10",
   "pseudocode": "inicio\n  valor vale 10\n  valor1 vale 5\n  se valor > valor1\n    mostre valor\n  senao\n    mostre valor1\n  fim se\nfim",
   "python": "valor = 10\nvalor1 = 5\nif valor > valor1:\n    print(valor)\nelse:\n    print(valor1)"
 }
 ```
+
+# 🌐 Próximos Passos (Deploy)
+
+Como principal evolução do projeto, **pretendemos fazer o deploy na web do site e da API na Vercel**. 
+
+Essa migração permitirá:
+- **Acesso Universal:** Qualquer pessoa poderá utilizar o aplicativo diretamente de um navegador (computador ou celular) sem precisar instalar dependências ou rodar o servidor localmente.
+- **Integração Fluida:** A Vercel permitirá hospedar tanto o front-end quanto a API FastAPI com alta performance e facilidade de integração contínua (CI/CD).
+- **Escalabilidade Educacional:** Mais professores e alunos terão facilidade de adotar a ferramenta nas escolas, utilizando apenas o link da aplicação hospedada.

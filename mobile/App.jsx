@@ -17,8 +17,7 @@ import InsertPhotoBtn from './components/InsertPhotoBtn'
 import CodeBox from './components/CodeBox'
 import SegmentedToggle from './components/SegmentedToggle'
 
-const ip = process.env.IP || 'localhost'
-const url = `http://${ip}:5000/convert`
+const url = process.env.API_URL || 'http://localhost:8000'
 
 export default function App() {
   const [image, setImage] = useState(null)
