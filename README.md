@@ -58,6 +58,9 @@ Aplicativo que escaneia pseudocódigos em blocos (algoritmos físicos) a partir 
 app-algoritmo-fisico/
 │
 ├── api/
+│   ├── dist/
+│   │   └── main.exe
+│   │
 │   ├── aruco_reader.py
 │   ├── blocks.json
 │   ├── conversor.py
@@ -70,7 +73,8 @@ app-algoritmo-fisico/
 │   ├── pics/
 │   │   ├── img1.jpg
 │   │   ├── img2.jpg
-│   │   └── ...
+│   │   ├── img3.jpg
+│   │   └── img4.jpg
 │   │
 │   ├── multiple_test.py
 │   ├── requirements.txt
@@ -89,6 +93,7 @@ app-algoritmo-fisico/
 │   │   └── ...
 │   │
 │   ├── blocks.json
+│   ├── blocks.pdf
 │   ├── generator.py
 │   ├── problems.pdf
 │   └── requirements.txt
@@ -125,8 +130,7 @@ app-algoritmo-fisico/
 │   ├── executor.py
 │   ├── img_reader.py
 │   ├── main.py
-│   ├── requirements.txt
-│   └── utils.py
+│   └── requirements.txt
 │
 ├── .gitignore
 └── README.md
@@ -225,6 +229,7 @@ Interface gráfica para desktop que processa imagens **localmente**, sem depende
 - Exibição do pseudocódigo e Python **lado a lado**
 - Caixa de saída com título dinâmico: **"Saída"** em caso de sucesso ou **"Erro"** em caso de falha
 - **Preview da imagem** na interface, com opção de clicar para abrir no visualizador padrão do sistema
+- Interface maximizada por padrão (modo *zoomed*) para melhor visualização
 - Geração de executável `.exe` via PyInstaller
 
 A maioria dos módulos (como `aruco_reader`, `conversor` e `executor`) são compartilhados com a API, garantindo consistência no processamento.
@@ -291,7 +296,7 @@ pip install pyinstaller
 pyinstaller --onefile --noconsole --add-data "blocks.json;." main.py
 ```
 
-O executável será gerado em `interface/dist/main.exe`. O arquivo `utils.py` é responsável por resolver os caminhos temporários dos arquivos embutidos pelo PyInstaller (como o `blocks.json`).
+O executável será gerado em `interface/dist/main.exe`. A própria aplicação se encarrega de resolver de forma robusta os caminhos dos arquivos embutidos pelo PyInstaller (como o `blocks.json`).
 
 # 🧱 Pasta de blocos físicos
 
