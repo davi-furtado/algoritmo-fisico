@@ -18,13 +18,13 @@ Aplicativo que escaneia pseudocódigos em blocos (algoritmos físicos) a partir 
 
 - [✨ Funcionalidades](#-funcionalidades)
 - [📂 Estrutura do Projeto](#-estrutura-do-projeto)
-  - [Interface Desktop](#interface-desktop)
-  - [Mobile](#mobile)
+  - [Frontend](#frontend)
   - [API](#api)
+  - [Interface Desktop](#interface-desktop)
 - [🚀 Como rodar?](#-como-rodar)
-  - [Interface Desktop](#interface-desktop-1)
+  - [Frontend](#frontend-1)
   - [API](#api-1)
-  - [Mobile](#mobile-1)
+  - [Interface Desktop](#interface-desktop-1)
 - [🧱 Pasta de blocos físicos](#-pasta-de-blocos-físicos)
 - [🔄 Fluxo de funcionamento](#-fluxo-de-funcionamento)
 - [⚙️ Conversão de pseudocódigo](#-conversão-de-pseudocódigo)
@@ -93,21 +93,7 @@ app-algoritmo-fisico/
 │   ├── problems.pdf
 │   └── requirements.txt
 │
-├── interface/
-│   ├── dist/
-│   │   └── main.exe
-│   │
-│   ├── aruco_reader.py
-│   ├── blocks.json
-│   ├── conversor.py
-│   ├── executor.py
-│   ├── img_reader.py
-│   ├── main.py
-│   ├── pyinstaller_command.txt
-│   ├── requirements.txt
-│   └── utils.py
-│
-├── mobile/
+├── frontend/
 │   ├── assets/
 │   │   ├── images/
 │   │   │   ├── adaptive-icon.png
@@ -129,6 +115,20 @@ app-algoritmo-fisico/
 │   ├── package.json
 │   └── styles.js
 │
+├── interface/
+│   ├── dist/
+│   │   └── main.exe
+│   │
+│   ├── aruco_reader.py
+│   ├── blocks.json
+│   ├── conversor.py
+│   ├── executor.py
+│   ├── img_reader.py
+│   ├── main.py
+│   ├── pyinstaller_command.txt
+│   ├── requirements.txt
+│   └── utils.py
+│
 ├── .gitignore
 └── README.md
 ```
@@ -137,24 +137,7 @@ Filetree gerada com a biblioteca [`pyletree`](https://github.com/davi-furtado/py
 
 </details>
 
-## Interface Desktop
-
-Tecnologias utilizadas:
-
-- Python
-- CustomTkinter
-- OpenCV (ArUco)
-
-Interface gráfica para desktop que processa imagens **localmente**, sem depender da API. Permite:
-
-- Selecionar uma **imagem avulsa** ou uma **pasta com imagens**
-- Seletor dropdown para escolher a imagem da pasta
-- Exibição do pseudocódigo e Python **lado a lado**
-- Caixa de saída com título dinâmico: **"Saída"** em caso de sucesso ou **"Erro"** em caso de falha
-- **Preview da imagem** na interface, com opção de clicar para abrir no visualizador padrão do sistema
-- Geração de executável `.exe` via PyInstaller
-
-## Mobile
+## Frontend
 
 Tecnologias utilizadas:
 
@@ -228,6 +211,25 @@ API que tem um retorno único independente da imagem enviada. Pode ser usada par
 
 Arquivo com todas as dependências usadas na API.
 
+## Interface Desktop
+
+Tecnologias utilizadas:
+
+- Python
+- CustomTkinter
+- OpenCV (ArUco)
+
+Interface gráfica para desktop que processa imagens **localmente**, sem depender da API. Permite:
+
+- Selecionar uma **imagem avulsa** ou uma **pasta com imagens**
+- Seletor dropdown para escolher a imagem da pasta
+- Exibição do pseudocódigo e Python **lado a lado**
+- Caixa de saída com título dinâmico: **"Saída"** em caso de sucesso ou **"Erro"** em caso de falha
+- **Preview da imagem** na interface, com opção de clicar para abrir no visualizador padrão do sistema
+- Geração de executável `.exe` via PyInstaller
+
+A maioria dos módulos (como `aruco_reader`, `conversor` e `executor`) são compartilhados com a API, garantindo consistência no processamento.
+
 # 🚀 Como rodar?
 
 ## Requisitos
@@ -235,6 +237,39 @@ Arquivo com todas as dependências usadas na API.
 - Python 3.8 ou superior
 - Node.js 14 ou superior (para o mobile)
 - npm 6 ou superior (para o mobile)
+
+## Frontend
+
+1. Crie o arquivo `frontend/.env` e coloque o endereço completo da sua API (incluindo o IP local e porta) na variável `API_URL` para que o aplicativo consiga comunicar com a API localmente. Deve ficar assim:
+   ```bash
+   API_URL=http://w.x.y.z:8000
+   ```
+2. Abra um terminal na pasta `mobile`
+3. Instale as dependências:
+   ```bash
+   npm install
+   ```
+4. Inicie o projeto Expo:
+   ```bash
+   npx expo start --port 6000
+   ```
+5. Para rodar no celular, baixe o aplicativo **Expo Go** e escaneie o QR code exibido.
+
+## API
+
+1. Abra um terminal na pasta `api`
+2. Instale as dependências:
+   ```bash
+   pip install -r requirements.txt
+   ```
+3. Inicie a API:
+   ```bash
+   python main.py
+   ```
+   ou
+   ```bash
+   uvicorn main:app --host 0.0.0.0
+   ```
 
 ## Interface Desktop
 
@@ -258,58 +293,6 @@ pyinstaller --onefile --noconsole --add-data "blocks.json;." main.py
 ```
 
 O executável será gerado em `interface/dist/main.exe`. O arquivo `utils.py` é responsável por resolver os caminhos temporários dos arquivos embutidos pelo PyInstaller (como o `blocks.json`).
-
-## API
-
-1. Abra um terminal na pasta `api`
-2. Instale as dependências:
-   ```bash
-   pip install -r requirements.txt
-   ```
-3. Inicie a API:
-   ```bash
-   python main.py
-   ```
-   ou
-   ```bash
-   uvicorn main:app --host 0.0.0.0
-   ```
-
-## Mobile
-
-1. Crie o arquivo `mobile/.env` e coloque o endereço completo da sua API (incluindo o IP local e porta) na variável `API_URL` para que o aplicativo consiga comunicar com a API localmente. Deve ficar assim:
-   ```bash
-   API_URL=http://w.x.y.z:8000
-   ```
-2. Abra um terminal na pasta `mobile`
-3. Instale as dependências:
-   ```bash
-   npm install
-   ```
-4. Inicie o projeto Expo:
-   ```bash
-   npx expo start --port 6000
-   ```
-5. Para rodar no celular, baixe o aplicativo **Expo Go** e escaneie o QR code exibido.
-
-## Usando os scripts de automação
-
-O arquivo `set_env.py` automatiza a criação do arquivo `.env` para o mobile, preenchendo a variável `IP` com o endereço IP local da máquina.
-
-Ele reescreve o arquivo:
-
-- `mobile/.env`
-
-O arquivo `run_all.py` inicia a API e o mobile automaticamente:
-
-- `api` (uvicorn)
-- `mobile` (expo start)
-
-Para usar, execute o script na raiz do projeto:
-
-```bash
-python run_all.py
-```
 
 # 🧱 Pasta de blocos físicos
 
@@ -340,6 +323,10 @@ Exemplo simplificado:
 
 Esse arquivo também existe na **API** e na **interface desktop**, onde é utilizado durante o reconhecimento dos blocos.
 
+## `blocks.pdf`
+
+PDF contendo os blocos físicos para impressão. Cada bloco tem um ID de ArUco correspondente, que é lido pela API para reconstruir o pseudocódigo.
+
 ## `generator.py`
 
 Script responsável por **gerar automaticamente os marcadores ArUco utilizados no projeto**.
@@ -348,9 +335,9 @@ Ele cria todas as imagens dentro da pasta `blocks/arucos`.
 
 # 🔄 Fluxo de funcionamento
 
-## Via API (Mobile)
+## Via API (Frontend)
 
-1. O mobile envia uma imagem para o endpoint `/convert`
+1. O frontend envia uma imagem para o endpoint `/convert`
 2. A API usa **OpenCV ArUco** para detectar os marcadores
 3. Os **IDs detectados são convertidos em palavras** usando `blocks.json`
 4. O pseudocódigo gerado é enviado para `toPython()` (`conversor.py`)
@@ -407,7 +394,7 @@ _____ vale __
 
 ### Operadores e Valores
 
-- **Operadores Matemáticos**: `+`, `-`, `*`, `/`
+- **Operadores Matemáticos**: `+`, `-`, `*`, `/`, `%`, `//`
 - **Operadores Relacionais**: `==`, `!=`, `<`, `>`, `<=`, `>=`
 - **Valores Lógicos**: `verdadeiro` e `falso`
 - **Valores e Variáveis Pré-definidas**: Números de `0` a `20`, e as variáveis `quantidade`, `valor`, `valor1`, `valor2`, `amigos`, `resto` e `resultado`.
@@ -450,9 +437,11 @@ Script iterativo útil para processar e debugar um lote de imagens em sequência
 
 # 🌐 Próximos Passos (Deploy)
 
-Como principal evolução do projeto, **pretendemos fazer o deploy na web do site e da API na Vercel**. 
+Como principal evolução do projeto, **pretendemos fazer o deploy na web do site e da API na Vercel**.
 
 Essa migração permitirá:
+
 - **Acesso Universal:** Qualquer pessoa poderá utilizar o aplicativo diretamente de um navegador (computador ou celular) sem precisar instalar dependências ou rodar o servidor localmente.
 - **Integração Fluida:** A Vercel permitirá hospedar tanto o front-end quanto a API FastAPI com alta performance e facilidade de integração contínua (CI/CD).
 - **Escalabilidade Educacional:** Mais professores e alunos terão facilidade de adotar a ferramenta nas escolas, utilizando apenas o link da aplicação hospedada.
+
