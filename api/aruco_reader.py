@@ -1,3 +1,4 @@
+from os import path
 from cv2 import cvtColor, COLOR_BGR2GRAY
 from cv2.aruco import (
     getPredefinedDictionary,
@@ -7,7 +8,7 @@ from cv2.aruco import (
 )
 from json import load
 
-with open('blocks.json') as f:
+with open(path.join(path.dirname(path.abspath(__file__)), 'blocks.json')) as f:
     blocks = load(f)
 
 dictionary = getPredefinedDictionary(DICT_5X5_100)
