@@ -24,7 +24,7 @@ app.add_middleware(
 
 
 @app.post(
-    '/convert',
+    '/',
     summary='Converter imagem para código',
     description='Recebe uma imagem e retorna o código correspondente em pseudocódigo e Python.'
 )

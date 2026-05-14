@@ -1,7 +1,7 @@
 from requests import post
 
 img = input()
-url = 'http://localhost:8000/convert'
+url = 'http://localhost:8000/'
 
 with open(img, 'rb') as file:
     files = {'file': file}

@@ -2,7 +2,7 @@ from os import listdir
 from requests import post
 from json import dump
 
-url = 'http://localhost:8000/convert'
+url = 'http://localhost:8000/'
 
 results = []
 for path in ['pics/' + p for p in listdir('fotos')]:
