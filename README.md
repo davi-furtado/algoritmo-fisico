@@ -12,8 +12,6 @@
 Aplicativo que escaneia pseudocódigos em blocos (algoritmos físicos) a partir de imagens e retorna o código equivalente em <b>Python</b> junto com a <b>saída da execução</b>.
 </p>
 
-<hr>
-
 ## 📋 Sumário
 
 - [✨ Funcionalidades](#-funcionalidades)
@@ -31,8 +29,6 @@ Aplicativo que escaneia pseudocódigos em blocos (algoritmos físicos) a partir 
 - [🧪 Pasta de testes](#-pasta-de-testes)
 - [📤 Exemplo de retorno da API](#-exemplo-de-retorno-da-api)
 - [🌐 Próximos Passos (Deploy)](#-próximos-passos-deploy)
-
-<hr>
 
 # ✨ Funcionalidades
 
@@ -229,7 +225,7 @@ Interface gráfica para desktop que processa imagens **localmente**, sem depende
 - Exibição do pseudocódigo e Python **lado a lado**
 - Caixa de saída com título dinâmico: **"Saída"** em caso de sucesso ou **"Erro"** em caso de falha
 - **Preview da imagem** na interface, com opção de clicar para abrir no visualizador padrão do sistema
-- Interface maximizada por padrão (modo *zoomed*) para melhor visualização
+- Interface maximizada por padrão (modo _zoomed_) para melhor visualização
 - Geração de executável `.exe` via PyInstaller
 
 A maioria dos módulos (como `aruco_reader`, `conversor` e `executor`) são compartilhados com a API, garantindo consistência no processamento.
@@ -341,7 +337,7 @@ Ele cria todas as imagens dentro da pasta `blocks/arucos`.
 
 ## Via API (Frontend)
 
-1. O frontend envia uma imagem para o endpoint `/convert`
+1. O frontend envia uma imagem para o endpoint `/`
 2. A API usa **OpenCV ArUco** para detectar os marcadores
 3. Os **IDs detectados são convertidos em palavras** usando `blocks.json`
 4. O pseudocódigo gerado é enviado para `toPython()` (`conversor.py`)
@@ -423,7 +419,7 @@ A pasta `api_tests` contém utilitários projetados para validar e debugar a API
 
 ## `test.py`
 
-Script simples onde o usuário informa o caminho local de uma imagem por meio da entrada padrão do terminal. O script envia a imagem para o endpoint `/convert` local (porta `8000`) e imprime o JSON retornado pela API na tela.
+Script simples onde o usuário informa o caminho local de uma imagem por meio da entrada padrão do terminal. O script envia a imagem para o endpoint `/` local (porta `8000`) e imprime o JSON retornado pela API na tela.
 
 ## `multiple_test.py`
 
