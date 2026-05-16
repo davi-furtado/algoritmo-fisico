@@ -162,7 +162,7 @@ if __name__ == '__main__':
     set_default_color_theme('blue')
 
     window = CTk()
-    window.title('Progrease')
+    window.title('Algorítmo Físico')
     window.geometry('960x700')
     window.minsize(760, 520)
     window.state('zoomed')
