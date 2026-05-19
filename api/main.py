@@ -64,6 +64,9 @@ async def convert(file: UploadFile = File(...)):
             'python': python_code
         }
 
+    except Exception as e:
+        return {'error': f'Erro interno: {e}'}
+
     finally:
         if filepath.exists():
             filepath.unlink()
