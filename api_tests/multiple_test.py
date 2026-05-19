@@ -5,7 +5,7 @@ from json import dump
 url = 'https://api-algoritmo-fisico.vercel.app/'
 
 results = []
-for path in ['pics/' + p for p in listdir('fotos')]:
+for path in ['pics/' + p for p in listdir('pics')]:
     with open(path, 'rb') as entry:
         files = {'file': entry}
         response = post(url, files=files)
