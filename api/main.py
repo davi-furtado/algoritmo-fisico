@@ -1,6 +1,3 @@
-# build command:
-# pyinstaller --onefile main.py
-
 from fastapi import FastAPI, File, UploadFile
 from fastapi.middleware.cors import CORSMiddleware
 from cv2 import imread
@@ -24,21 +21,18 @@ app.add_middleware(
     allow_headers=['*']
 )
 
-TEMP_DIR = Path('temp')
-TEMP_DIR.mkdir(exist_ok=True)
-
 @app.post(
     '/',
-    summary='Converter imagem para código',
+    summary='Converte imagem para código',
     description='Recebe uma imagem e retorna o código correspondente em pseudocódigo e Python.'
 )
 async def convert(file: UploadFile = File(...)):
-    filepath = TEMP_DIR / str(file.filename)
-
-    with open(filepath, 'wb') as f:
-        f.write(await file.read())
+    filepath = Path(f'/tmp/{file.filename}')
 
     try:
+        with open(filepath, 'wb') as f:
+            f.write(await file.read())
+
         img = imread(str(filepath))
 
         if img is None:
@@ -51,7 +45,7 @@ async def convert(file: UploadFile = File(...)):
                 return {'error': 'Nenhum código detectado na imagem.'}
 
         except Exception as e:
-            return {'error': f'Erro ao processar a imagem: {e}'}
+            return {'error': f'Erro ao processar a imagem:\n{e}'}
 
         python_code = toPython(pseudocode)
 
@@ -68,7 +62,7 @@ async def convert(file: UploadFile = File(...)):
         }
 
     except Exception as e:
-        return {'error': f'Erro interno: {e}'}
+        return {'error': f'Falha inesperada:\n{e}'}
 
     finally:
         if filepath.exists():
