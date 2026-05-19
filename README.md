@@ -68,9 +68,7 @@ app-algoritmo-fisico/
 ├── api_tests/
 │   ├── pics/
 │   │   ├── img1.jpg
-│   │   ├── img2.jpg
-│   │   ├── img3.jpg
-│   │   └── img4.jpg
+│   │   └── ...
 │   │
 │   ├── multiple_test.py
 │   ├── requirements.txt
