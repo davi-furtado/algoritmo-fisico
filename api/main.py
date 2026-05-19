@@ -1,8 +1,7 @@
 from fastapi import FastAPI, File, UploadFile
 from fastapi.middleware.cors import CORSMiddleware
 from cv2 import imread
-from tempfile import NamedTemporaryFile
-from os import remove, path
+from pathlib import Path
 
 from aruco_reader import read_arucos
 from conversor import indentPseudo, toPython
@@ -22,6 +21,8 @@ app.add_middleware(
     allow_headers=['*']
 )
 
+TEMP_DIR = Path('temp')
+TEMP_DIR.mkdir(exist_ok=True)
 
 @app.post(
     '/',
@@ -29,41 +30,43 @@ app.add_middleware(
     description='Recebe uma imagem e retorna o código correspondente em pseudocódigo e Python.'
 )
 async def convert(file: UploadFile = File(...)):
-    ext = path.splitext(file.filename)[1].lower()
+    filepath = TEMP_DIR / file.filename
 
-    with NamedTemporaryFile(delete=False, suffix=ext) as temp_img:
-        temp_path = temp_img.name
-        temp_img.write(await file.read())
-
-    img = imread(temp_path)
-    if img is None:
-        remove(temp_path)
-        return {'error': 'Imagem inválida ou corrompida.'}
+    with open(filepath, 'wb') as f:
+        f.write(await file.read())
 
     try:
-        pseudocode = read_arucos(img)
-        if pseudocode is None or pseudocode.strip() == '':
-            remove(temp_path)
-            return {'error': 'Nenhum código detectado na imagem.'}
-    except Exception as e:
-        remove(temp_path)
-        return {'error': f'Erro ao processar a imagem: {str(e)}'}
+        img = imread(str(filepath))
 
-    python_code = toPython(pseudocode)
+        if img is None:
+            return {'error': 'Imagem inválida ou corrompida.'}
 
-    try:
-        output = safe_exec(python_code)
-    except Exception as e:
-        remove(temp_path)
-        return {'error': f'Erro ao executar o código: {e}'}
+        try:
+            pseudocode = read_arucos(img)
 
-    remove(temp_path)
+            if pseudocode is None or pseudocode.strip() == '':
+                return {'error': 'Nenhum código detectado na imagem.'}
 
-    return {
-        'output': output,
-        'pseudocode': indentPseudo(pseudocode),
-        'python': python_code
-    }
+        except Exception as e:
+            return {'error': f'Erro ao processar a imagem: {e}'}
+
+        python_code = toPython(pseudocode)
+
+        try:
+            output = safe_exec(python_code)
+
+        except Exception as e:
+            return {'error': f'Erro ao executar o código:\n{e}'}
+
+        return {
+            'output': output,
+            'pseudocode': indentPseudo(pseudocode),
+            'python': python_code
+        }
+
+    finally:
+        if filepath.exists():
+            filepath.unlink()
 
 
 if __name__ == '__main__':
