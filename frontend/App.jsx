@@ -17,7 +17,7 @@ import InsertPhotoBtn from './components/InsertPhotoBtn'
 import CodeBox from './components/CodeBox'
 import SegmentedToggle from './components/SegmentedToggle'
 
-const url = process.env.API_URL || 'http://localhost:8000'
+const url = 'https://api-algoritmo-fisico.vercel.app/'
 
 export default function App() {
   const [image, setImage] = useState(null)

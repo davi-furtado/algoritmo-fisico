@@ -1,3 +1,6 @@
+# build command:
+# pyinstaller --onefile main.py
+
 from fastapi import FastAPI, File, UploadFile
 from fastapi.middleware.cors import CORSMiddleware
 from cv2 import imread
@@ -30,7 +33,7 @@ TEMP_DIR.mkdir(exist_ok=True)
     description='Recebe uma imagem e retorna o código correspondente em pseudocódigo e Python.'
 )
 async def convert(file: UploadFile = File(...)):
-    filepath = TEMP_DIR / file.filename
+    filepath = TEMP_DIR / str(file.filename)
 
     with open(filepath, 'wb') as f:
         f.write(await file.read())

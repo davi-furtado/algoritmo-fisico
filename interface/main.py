@@ -1,4 +1,7 @@
-from customtkinter import *
+# build command:
+# pyinstaller --onefile --noconsole --add-data "blocks.json;." main.py
+
+import customtkinter as ctk
 from tkinter import filedialog
 from os import listdir, path, startfile
 from threading import Thread
@@ -67,7 +70,7 @@ def update_preview():
     try:
         img = Image.open(current_file)
         img.thumbnail((160, 160))
-        ctk_img = CTkImage(light_image=img, dark_image=img, size=img.size)
+        ctk_img = ctk.CTkImage(light_image=img, dark_image=img, size=img.size)
         preview_btn.configure(image=ctk_img, text='', state='normal')
     except Exception as e:
         preview_btn.configure(image=None, text='Erro', state='disabled')
@@ -158,128 +161,128 @@ def open_image():
 if __name__ == '__main__':
     freeze_support()
 
-    set_appearance_mode('dark')
-    set_default_color_theme('blue')
+    ctk.set_appearance_mode('dark')
+    ctk.set_default_color_theme('blue')
 
-    window = CTk()
+    window = ctk.CTk()
     window.title('Algorítmo Físico')
     window.geometry('960x700')
     window.minsize(760, 520)
     window.state('zoomed')
 
-    header_frame = CTkFrame(window, fg_color='transparent')
+    header_frame = ctk.CTkFrame(window, fg_color='transparent')
     header_frame.pack(fill='x', padx=16, pady=(16, 0))
 
-    left_header = CTkFrame(header_frame, fg_color='transparent')
+    left_header = ctk.CTkFrame(header_frame, fg_color='transparent')
     left_header.pack(side='left', fill='both', expand=True)
 
-    top = CTkFrame(left_header, fg_color='transparent')
+    top = ctk.CTkFrame(left_header, fg_color='transparent')
     top.pack(fill='x')
 
-    CTkButton(
+    ctk.CTkButton(
         top, text='🖼  Selecionar Imagem',
         command=select_image,
         height=42, corner_radius=8,
-        font=CTkFont(size=16, weight='bold')
+        font=ctk.CTkFont(size=16, weight='bold')
     ).pack(side='left')
 
-    CTkButton(
+    ctk.CTkButton(
         top, text='📂  Selecionar Pasta',
         command=select_folder,
         height=42, corner_radius=8,
-        font=CTkFont(size=16, weight='bold')
+        font=ctk.CTkFont(size=16, weight='bold')
     ).pack(side='left', padx=(8, 0))
 
-    path_label = CTkLabel(
+    path_label = ctk.CTkLabel(
         top, text='',
-        font=CTkFont(size=15), text_color='gray60'
+        font=ctk.CTkFont(size=15), text_color='gray60'
     )
     path_label.pack(side='left', padx=12)
 
-    sel_row = CTkFrame(left_header, fg_color='transparent')
+    sel_row = ctk.CTkFrame(left_header, fg_color='transparent')
     sel_row.pack(fill='x', pady=(10, 0))
 
-    CTkLabel(
+    ctk.CTkLabel(
         sel_row, text='Imagem:',
-        font=CTkFont(size=16, weight='bold')
+        font=ctk.CTkFont(size=16, weight='bold')
     ).pack(side='left')
 
-    img_menu = CTkOptionMenu(
+    img_menu = ctk.CTkOptionMenu(
         sel_row, values=['—'],
         width=340, height=38, corner_radius=8,
-        font=CTkFont(size=15),
+        font=ctk.CTkFont(size=15),
         state='disabled',
         command=on_img_menu_change
     )
     img_menu.pack(side='left', padx=8)
 
-    run_btn = CTkButton(
+    run_btn = ctk.CTkButton(
         sel_row, text='▶  Processar',
         command=process,
         height=38, corner_radius=8,
-        font=CTkFont(size=15, weight='bold'),
+        font=ctk.CTkFont(size=15, weight='bold'),
         state='disabled'
     )
     run_btn.pack(side='left', padx=(4, 0))
 
-    preview_btn = CTkButton(
+    preview_btn = ctk.CTkButton(
         header_frame, text='Nenhuma\nimagem', image=None,
         command=open_image,
         width=160, height=160, corner_radius=8,
-        font=CTkFont(size=14),
+        font=ctk.CTkFont(size=14),
         fg_color='#222528', hover_color='#2c3034',
         state='disabled'
     )
     preview_btn.pack(side='right', padx=(16, 0))
 
-    loading_label = CTkLabel(
+    loading_label = ctk.CTkLabel(
         window, text='⏳ Processando...',
-        font=CTkFont(size=16), text_color='#f1c40f'
+        font=ctk.CTkFont(size=16), text_color='#f1c40f'
     )
 
-    results = CTkFrame(window, fg_color='transparent')
+    results = ctk.CTkFrame(window, fg_color='transparent')
     results.pack(fill='both', expand=True, padx=16, pady=(12, 16))
     results.grid_columnconfigure(0, weight=1)
     results.grid_columnconfigure(1, weight=1)
     results.grid_rowconfigure(1, weight=0)
     results.grid_rowconfigure(3, weight=1)
 
-    output_title = CTkLabel(
+    output_title = ctk.CTkLabel(
         results, text='Saída',
-        font=CTkFont(size=16, weight='bold'),
+        font=ctk.CTkFont(size=16, weight='bold'),
         text_color='#bfbfbf'
     )
     output_title.grid(row=0, column=0, columnspan=2, sticky='w', pady=(0, 4))
 
-    output_box = CTkTextbox(
-        results, font=CTkFont(family='Consolas', size=20),
+    output_box = ctk.CTkTextbox(
+        results, font=ctk.CTkFont(family='Consolas', size=20),
         fg_color='#222528', corner_radius=8,
         text_color='#0f0', state='disabled', wrap='none',
         height=LINE_HEIGHT
     )
     output_box.grid(row=1, column=0, columnspan=2, sticky='ew', pady=(0, 10))
 
-    CTkLabel(
+    ctk.CTkLabel(
         results, text='Pseudocódigo',
-        font=CTkFont(size=16, weight='bold'),
+        font=ctk.CTkFont(size=16, weight='bold'),
         text_color='#bfbfbf'
     ).grid(row=2, column=0, sticky='w', pady=(0, 4))
 
-    CTkLabel(
+    ctk.CTkLabel(
         results, text='Python',
-        font=CTkFont(size=16, weight='bold'),
+        font=ctk.CTkFont(size=16, weight='bold'),
         text_color='#bfbfbf'
     ).grid(row=2, column=1, sticky='w', pady=(0, 4))
 
-    pseudo_box = CTkTextbox(
-        results, font=CTkFont(family='Consolas', size=20),
+    pseudo_box = ctk.CTkTextbox(
+        results, font=ctk.CTkFont(family='Consolas', size=20),
         fg_color='#222528', corner_radius=8,
         text_color='#0f0', state='disabled', wrap='none'
     )
     pseudo_box.grid(row=3, column=0, sticky='nsew', padx=(0, 6))
 
-    python_box = CTkTextbox(
-        results, font=CTkFont(family='Consolas', size=20),
+    python_box = ctk.CTkTextbox(
+        results, font=ctk.CTkFont(family='Consolas', size=20),
         fg_color='#222528', corner_radius=8,
         text_color='#0f0', state='disabled', wrap='none'
     )

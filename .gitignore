@@ -1,6 +1,5 @@
 **/__pycache__/
 *.spec
 **/build
-**/.env
 **/node_modules/
 **/.expo/
