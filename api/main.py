@@ -11,10 +11,6 @@ from fastapi.responses import JSONResponse
 from cv2 import imread
 from pathlib import Path
 import uuid
-from slowapi import Limiter
-from slowapi.util import get_remote_address
-from slowapi.errors import RateLimitExceeded
-from slowapi.middleware import SlowAPIMiddleware
 
 from aruco_reader import read_arucos
 from conversor import indentPseudo, toPython
@@ -23,10 +19,10 @@ from executor import safe_exec
 app = FastAPI(
     title='API Algorítmo Físico',
     description='API responsável por converter imagens de pseudocódigo em código Python e executá-lo.',
-    version='1.0.0' # ,
-    # docs_url=None,
-    # redoc_url=None,
-    # openapi_url=None
+    version='1.0.0',
+    docs_url=None,
+    redoc_url=None,
+    openapi_url=None
 )
 
 app.add_middleware(
@@ -37,23 +33,11 @@ app.add_middleware(
     allow_headers=['*']
 )
 
-limiter = Limiter(key_func=get_remote_address)
-app.state.limiter = limiter
-app.add_middleware(SlowAPIMiddleware)
-
-@app.exception_handler(RateLimitExceeded)
-async def rate_limit_handler(request: Request, exc: RateLimitExceeded):
-    return JSONResponse(
-        status_code=status.HTTP_429_TOO_MANY_REQUESTS,
-        content={"detail": f"Limite de requisições excedido: {exc.detail}"}
-    )
-
 @app.post(
     '/',
     summary='Converte imagem para código',
     description='Recebe uma imagem e retorna o código correspondente em pseudocódigo e Python.'
 )
-@limiter.limit('0.5/minute')
 async def convert(request: Request, file: UploadFile = File(...)):
     ext = Path(str(file.filename)).suffix.lower()
     if ext not in ['.jpg', '.jpeg', '.png', '.bmp']:

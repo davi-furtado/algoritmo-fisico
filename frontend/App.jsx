@@ -50,7 +50,8 @@ export default function App() {
         jpg: 'image/jpeg',
         jpeg: 'image/jpeg',
         png: 'image/png',
-        webp: 'image/webp'
+        webp: 'image/webp',
+        bmp: 'image/bmp'
       }[ext] || 'image/jpeg'
     const form = new FormData()
     form.append('file', { uri, name: `image.${ext || 'jpg'}`, type: mime })

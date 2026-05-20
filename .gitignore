@@ -1,5 +1,6 @@
 **/__pycache__/
-*.spec
 **/build
-**/node_modules/
-**/.expo/
+**/dist
+*.spec
+frontend/.expo/
+frontend/node_modules/

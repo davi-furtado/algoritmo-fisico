@@ -24,7 +24,8 @@
       "edgeToEdge": true
     },
     "web": {
-      "favicon": "./assets/images/favicon.png"
+      "favicon": "./assets/images/favicon.png",
+      "themeColor": "#000000"
     },
     "plugins": [
       [
