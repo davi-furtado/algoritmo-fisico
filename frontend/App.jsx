@@ -17,7 +17,7 @@ import InsertPhotoBtn from './components/InsertPhotoBtn'
 import CodeBox from './components/CodeBox'
 import SegmentedToggle from './components/SegmentedToggle'
 
-const url = 'https://api-algoritmo-fisico.vercel.app/'
+const url = 'https://algoritmo-fisico.vercel.app/'
 
 export default function App() {
   const [image, setImage] = useState(null)
@@ -60,18 +60,30 @@ export default function App() {
         body: form,
         headers: { Accept: 'application/json' }
       })
-      const data = await res.json()
-      setJson(JSON.stringify(data, null, 2))
-      if (data.error) {
-        setOutput(data.error || 'Erro desconhecido')
+      if (res.status === 200) {
+        const data = await res.json()
+        setJson(JSON.stringify(data, null, 2))
+        if (data.error) {
+          setOutput(data.error || 'Erro desconhecido')
+          setIsError(true)
+          setPseudocode('')
+          setPython('')
+        } else {
+          setPseudocode(data.pseudocode || '')
+          setPython(data.python || '')
+          setOutput(data.output || '')
+          setIsError(false)
+        }
+      } else {
+        const errorText = await res.text()
+        setOutput(
+          `Erro ${res.status}: ${
+            errorText || res.statusText || 'Resposta inesperada do servidor'
+          }`
+        )
         setIsError(true)
         setPseudocode('')
         setPython('')
-      } else {
-        setPseudocode(data.pseudocode || '')
-        setPython(data.python || '')
-        setOutput(data.output || '')
-        setIsError(false)
       }
     } catch (e) {
       setOutput(`Erro ao conectar com o servidor: ${e.message}`)

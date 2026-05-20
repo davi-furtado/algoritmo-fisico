@@ -1,5 +1,6 @@
 fastapi
 opencv_python
 opencv_python_headless
-uvicorn
 python-multipart
+slowapi
+uvicorn

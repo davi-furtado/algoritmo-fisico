@@ -17,15 +17,16 @@ def read_img(file):
     except Exception as e:
         return {'error': f'Erro ao processar a imagem: {str(e)}'}
 
-    python_code = toPython(pseudocode)
+    python = toPython(pseudocode)
+    pseudocode = indentPseudo(pseudocode)
 
     try:
-        output = safe_exec(python_code).strip()
+        output = safe_exec(python)
     except Exception as e:
         return {'error': f'Erro ao executar o código: {e}'}
 
     return {
         'output': output,
         'pseudocode': indentPseudo(pseudocode),
-        'python': python_code
+        'python': python
     }

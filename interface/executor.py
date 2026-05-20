@@ -30,7 +30,7 @@ def run_code(code, conn):
         exec(code, {})
     except Exception as e:
         try:
-            conn.send(f'Erro: {e}')
+            conn.send(f'Erro:\n{e}')
         except:
             pass
 
@@ -39,9 +39,7 @@ def run_code(code, conn):
 
 
 def format_output(output, infinite=False):
-    lines = output.strip().split('\n')
-
-    if infinite and len(lines) > 7:
+    if infinite and len(lines := output.strip().split('\n')) > 7:
         return '\n'.join(lines[:7]) + '\n...'
 
     return output.strip()
