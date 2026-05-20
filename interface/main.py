@@ -1,4 +1,3 @@
-# build command:
 # pyinstaller --onefile --noconsole --add-data "blocks.json;." main.py
 
 import customtkinter as ctk
