@@ -1,5 +1,5 @@
 <div align="center">
-  <h1>APP Algoritmo Físico</h1>
+  <h1>Algoritmo Físico</h1>
 
   <img src="https://img.shields.io/badge/python-3670A0?style=for-the-badge&logo=python&logoColor=ffdd54">
   <img src="https://img.shields.io/badge/FastAPI-005571?style=for-the-badge&logo=fastapi">
@@ -442,4 +442,3 @@ Essa migração permitirá:
 - **Acesso Universal:** Qualquer pessoa poderá utilizar o aplicativo diretamente de um navegador (computador ou celular) sem precisar instalar dependências ou rodar o servidor localmente.
 - **Integração Fluida:** A Vercel permitirá hospedar tanto o front-end quanto a API FastAPI com alta performance e facilidade de integração contínua (CI/CD).
 - **Escalabilidade Educacional:** Mais professores e alunos terão facilidade de adotar a ferramenta nas escolas, utilizando apenas o link da aplicação hospedada.
-
