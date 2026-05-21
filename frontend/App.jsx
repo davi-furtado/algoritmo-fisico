@@ -17,7 +17,7 @@ import InsertPhotoBtn from './components/InsertPhotoBtn'
 import CodeBox from './components/CodeBox'
 import SegmentedToggle from './components/SegmentedToggle'
 
-const url = 'https://algoritmo-fisico.vercel.app/'
+const url = 'http://SEU_IP_AQUI:8000/'
 
 export default function App() {
   const [image, setImage] = useState(null)
@@ -129,8 +129,10 @@ export default function App() {
       const res = await fetchWithTimeout(url, {
         method: 'POST',
         body: form,
-        headers: { Accept: 'application/json' },
-        timeout: 30000
+        headers: {
+          'Content-Type': 'multipart/form-data',
+          Accept: 'application/json'
+        }
       })
       if (res.status === 200) {
         const data = await res.json()
