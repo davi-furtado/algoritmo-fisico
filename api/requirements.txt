@@ -1,5 +1,4 @@
 fastapi
-opencv-python
 opencv-python-headless
 python-multipart
 uvicorn
