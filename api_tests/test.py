@@ -7,7 +7,9 @@ with open(img, 'rb') as file:
     files = {'file': file}
     response = post(url, files=files)
 
-if response.status_code == 200:
+if code := response.status_code == 200:
     result = response.json()
+else:
+    result = f'{code} | {response.text}'
 
 if result: print(result)

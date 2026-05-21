@@ -10,9 +10,10 @@ for path in ['pics/' + p for p in listdir('pics')]:
         files = {'file': entry}
         response = post(url, files=files)
 
-    if response.status_code != 200: continue
-
-    data = response.json()
+    if response.status_code != 200:
+        data = {'error': response.text}
+    else:
+        data = response.json()
     if not data: continue
 
     results.append({'path': path} | data)

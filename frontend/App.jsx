@@ -42,6 +42,32 @@ export default function App() {
         default: 'Courier'
       })
 
+  const fetchWithTimeout = async (resource, options = {}) => {
+    const { timeout = 20000, ...fetchOptions } = options
+    const controller = new AbortController()
+    const id = setTimeout(() => controller.abort(), timeout)
+    try {
+      return await fetch(resource, {
+        ...fetchOptions,
+        signal: controller.signal
+      })
+    } finally {
+      clearTimeout(id)
+    }
+  }
+
+  const dataUrlToBlob = dataUrl => {
+    const [header, data] = dataUrl.split(',')
+    const mimeMatch = header.match(/:(.*?);/)
+    const mime = mimeMatch ? mimeMatch[1] : 'image/jpeg'
+    const binary = atob(data)
+    const array = new Uint8Array(binary.length)
+    for (let i = 0; i < binary.length; i += 1) {
+      array[i] = binary.charCodeAt(i)
+    }
+    return new Blob([array], { type: mime })
+  }
+
   const sendImage = useCallback(async uri => {
     setLoading(true)
 
@@ -71,8 +97,18 @@ export default function App() {
     }
 
     if (Platform.OS === 'web') {
-      const response = await fetch(uri)
-      const blob = await response.blob()
+      let blob
+      if (uri.startsWith('data:')) {
+        blob = dataUrlToBlob(uri)
+      } else {
+        const response = await fetchWithTimeout(uri, { timeout: 15000 })
+        if (!response.ok) {
+          throw new Error(
+            `Não foi possível carregar a imagem local: ${response.status}`
+          )
+        }
+        blob = await response.blob()
+      }
       const blobExt = blob.type.split('/').pop()?.toLowerCase()
       const normalizedExt = blobExt === 'jpeg' ? 'jpg' : blobExt || 'jpg'
       const normalizedMime = blob.type || mimeMap[ext] || 'image/jpeg'
@@ -90,10 +126,11 @@ export default function App() {
     }
 
     try {
-      const res = await fetch(url, {
+      const res = await fetchWithTimeout(url, {
         method: 'POST',
         body: form,
-        headers: { Accept: 'application/json' }
+        headers: { Accept: 'application/json' },
+        timeout: 30000
       })
       if (res.status === 200) {
         const data = await res.json()
