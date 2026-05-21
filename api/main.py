@@ -39,11 +39,23 @@ app.add_middleware(
     description='Recebe uma imagem e retorna o código correspondente em pseudocódigo e Python.'
 )
 async def convert(request: Request, file: UploadFile = File(...)):
+    content_type = (file.content_type or '').lower()
+    supported_types = {
+        'image/jpeg': '.jpg',
+        'image/jpg': '.jpg',
+        'image/png': '.png',
+        'image/bmp': '.bmp',
+        'image/webp': '.webp'
+    }
+
     ext = Path(str(file.filename)).suffix.lower()
-    if ext not in ['.jpg', '.jpeg', '.png', '.bmp']:
+    if ext not in supported_types.values():
+        ext = supported_types.get(content_type, ext)
+
+    if ext not in supported_types.values():
         raise HTTPException(
             status_code=status.HTTP_415_UNSUPPORTED_MEDIA_TYPE,
-            detail='Formato de arquivo não suportado. Use JPG, PNG ou BMP.'
+            detail='Formato de arquivo não suportado. Use JPG, PNG, BMP ou WEBP.'
         )
         
     filepath = Path(f'/tmp/{uuid.uuid4()}{ext}')

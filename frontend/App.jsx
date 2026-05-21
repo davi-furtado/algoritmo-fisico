@@ -44,17 +44,51 @@ export default function App() {
 
   const sendImage = useCallback(async uri => {
     setLoading(true)
-    const ext = uri.split('.').pop()?.toLowerCase()
-    const mime =
-      {
-        jpg: 'image/jpeg',
-        jpeg: 'image/jpeg',
-        png: 'image/png',
-        webp: 'image/webp',
-        bmp: 'image/bmp'
-      }[ext] || 'image/jpeg'
+
+    let ext = uri.split('.').pop()?.split('?')[0]?.toLowerCase()
+    if (
+      ext?.includes('/') ||
+      ext?.includes('\\') ||
+      ext === 'blob' ||
+      ext === 'data'
+    ) {
+      ext = undefined
+    }
+
+    const mimeMap = {
+      jpg: 'image/jpeg',
+      jpeg: 'image/jpeg',
+      png: 'image/png',
+      webp: 'image/webp',
+      bmp: 'image/bmp'
+    }
+
+    let filename = `image.${ext || 'jpg'}`
+    let filePayload = {
+      uri,
+      name: filename,
+      type: mimeMap[ext] || 'image/jpeg'
+    }
+
+    if (Platform.OS === 'web') {
+      const response = await fetch(uri)
+      const blob = await response.blob()
+      const blobExt = blob.type.split('/').pop()?.toLowerCase()
+      const normalizedExt = blobExt === 'jpeg' ? 'jpg' : blobExt || 'jpg'
+      const normalizedMime = blob.type || mimeMap[ext] || 'image/jpeg'
+      filename = `image.${normalizedExt}`
+      filePayload = blob
+      filePayload.name = filename
+      filePayload.type = normalizedMime
+    }
+
     const form = new FormData()
-    form.append('file', { uri, name: `image.${ext || 'jpg'}`, type: mime })
+    if (Platform.OS === 'web') {
+      form.append('file', filePayload, filename)
+    } else {
+      form.append('file', filePayload)
+    }
+
     try {
       const res = await fetch(url, {
         method: 'POST',
@@ -76,7 +110,13 @@ export default function App() {
           setIsError(false)
         }
       } else {
-        const errorText = await res.text()
+        let errorText = await res.text()
+        try {
+          const errorJson = JSON.parse(errorText)
+          errorText = errorJson.detail || errorJson.error || errorText
+        } catch {
+          // manter raw text se não for JSON
+        }
         setOutput(
           `Erro ${res.status}: ${
             errorText || res.statusText || 'Resposta inesperada do servidor'
