@@ -56,19 +56,13 @@ async def convert(request: Request, file: UploadFile = File(...)):
         )
         
     filepath = Path(f'/tmp/{uuid.uuid4()}{ext}')
-
+    filepath.parent.mkdir(parents=True, exist_ok=True)
     try:
         content = await file.read()
-        if len(content) > 10 * 1024 * 1024:
-            raise HTTPException(
-                status_code=status.HTTP_413_REQUEST_ENTITY_TOO_LARGE,
-                detail='Arquivo muito grande. O limite é de 10 MB.'
-            )
-
         with open(filepath, 'wb') as f:
             f.write(content)
 
-        img = imread(str(filepath))
+        img = imread(filepath)
 
         if img is None:
             raise HTTPException(
@@ -114,7 +108,7 @@ async def convert(request: Request, file: UploadFile = File(...)):
     except Exception as e:
         raise HTTPException(
             status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
-            detail=f'Falha inesperada:\n{e}'
+            detail=e
         )
 
     finally:
@@ -124,4 +118,4 @@ async def convert(request: Request, file: UploadFile = File(...)):
 
 if __name__ == '__main__':
     from uvicorn import run
-    run(app, host='0.0.0.0')
+    run('main:app', host='0.0.0.0', reload=True)
