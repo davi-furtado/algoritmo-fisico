@@ -2,7 +2,7 @@ from os import listdir
 from requests import post
 from json import dump
 
-url = 'https://api-algoritmo-fisico.vercel.app/'
+url = 'http://SEU_IP_AQUI:8000/'
 
 results = []
 for path in ['pics/' + p for p in listdir('pics')]:
