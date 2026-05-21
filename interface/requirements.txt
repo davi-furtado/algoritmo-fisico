@@ -1,4 +1,4 @@
 customtkinter
-opencv_python
-opencv_python_headless
+opencv-python
+opencv-python-headless
 pillow
