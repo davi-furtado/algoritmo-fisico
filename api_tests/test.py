@@ -1,7 +1,7 @@
 from requests import post
 
 img = input()
-url = 'http://api-algoritmo-fisico.vercel.app/'
+url = 'http://SEU_IP_AQUI:8000/'
 
 with open(img, 'rb') as file:
     files = {'file': file}
