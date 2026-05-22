@@ -45,7 +45,7 @@ def format_output(output, infinite=False):
     return output.strip()
 
 
-def safe_exec(code, timeout=2):
+def safe_exec(code, timeout=1):
     parent_conn, child_conn = Pipe()
     p = Process(target=run_code, args=(code, child_conn))
     p.start()
