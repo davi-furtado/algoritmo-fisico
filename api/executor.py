@@ -39,8 +39,8 @@ def run_code(code, conn):
 
 
 def format_output(output, infinite=False):
-    if infinite and len(lines := output.strip().split('\n')) > 7:
-        return '\n'.join(lines[:7]) + '\n...'
+    if infinite and len(lines := output.strip().split('\n')) > 4:
+        return '\n'.join(lines[:4]) + '\n...'
 
     return output.strip()
 

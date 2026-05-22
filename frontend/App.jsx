@@ -43,7 +43,7 @@ export default function App() {
       })
 
   const fetchWithTimeout = async (resource, options = {}) => {
-    const { timeout = 20000, ...fetchOptions } = options
+    const { timeout = 15000, ...fetchOptions } = options
     const controller = new AbortController()
     const id = setTimeout(() => controller.abort(), timeout)
     try {
@@ -56,28 +56,11 @@ export default function App() {
     }
   }
 
-  const dataUrlToBlob = dataUrl => {
-    const [header, data] = dataUrl.split(',')
-    const mimeMatch = header.match(/:(.*?);/)
-    const mime = mimeMatch ? mimeMatch[1] : 'image/jpeg'
-    const binary = atob(data)
-    const array = new Uint8Array(binary.length)
-    for (let i = 0; i < binary.length; i += 1) {
-      array[i] = binary.charCodeAt(i)
-    }
-    return new Blob([array], { type: mime })
-  }
-
   const sendImage = useCallback(async uri => {
     setLoading(true)
 
     let ext = uri.split('.').pop()?.split('?')[0]?.toLowerCase()
-    if (
-      ext?.includes('/') ||
-      ext?.includes('\\') ||
-      ext === 'blob' ||
-      ext === 'data'
-    ) {
+    if (ext?.includes('/') || ext?.includes('\\') || ext === 'data') {
       ext = undefined
     }
 
@@ -89,54 +72,42 @@ export default function App() {
       bmp: 'image/bmp'
     }
 
-    let filename = `image.${ext || 'jpg'}`
-    let filePayload = {
-      uri,
-      name: filename,
-      type: mimeMap[ext] || 'image/jpeg'
-    }
-
-    if (Platform.OS === 'web') {
-      let blob
-      if (uri.startsWith('data:')) {
-        blob = dataUrlToBlob(uri)
-      } else {
-        const response = await fetchWithTimeout(uri, { timeout: 15000 })
-        if (!response.ok) {
-          throw new Error(
-            `Não foi possível carregar a imagem local: ${response.status}`
-          )
-        }
-        blob = await response.blob()
-      }
-      const blobExt = blob.type.split('/').pop()?.toLowerCase()
-      const normalizedExt = blobExt === 'jpeg' ? 'jpg' : blobExt || 'jpg'
-      const normalizedMime = blob.type || mimeMap[ext] || 'image/jpeg'
-      filename = `image.${normalizedExt}`
-      filePayload = blob
-      filePayload.name = filename
-      filePayload.type = normalizedMime
-    }
+    const filename = `image.${ext || 'jpg'}`
+    const mimeType = mimeMap[ext] || 'image/jpeg'
 
     const form = new FormData()
+
     if (Platform.OS === 'web') {
-      form.append('file', filePayload, filename)
+      try {
+        const response = await fetch(uri)
+        const blobData = await response.blob()
+        form.append('file', blobData, filename)
+      } catch (err) {
+        setOutput(`Erro ao processar imagem na web: ${err.message}`)
+        setIsError(true)
+        setLoading(false)
+        return
+      }
     } else {
-      form.append('file', filePayload)
+      const fileData = {
+        uri,
+        name: filename,
+        type: mimeType
+      }
+      form.append('file', fileData)
     }
 
     try {
       const res = await fetchWithTimeout(url, {
         method: 'POST',
         body: form,
-        headers: {
-          'Content-Type': 'multipart/form-data',
-          Accept: 'application/json'
-        }
+        headers: { Accept: 'application/json' }
       })
+
       if (res.status === 200) {
         const data = await res.json()
         setJson(JSON.stringify(data, null, 2))
+
         if (data.error) {
           setOutput(data.error || 'Erro desconhecido')
           setIsError(true)
@@ -149,18 +120,23 @@ export default function App() {
           setIsError(false)
         }
       } else {
-        let errorText = await res.text()
+        let errorText = ''
         try {
-          const errorJson = JSON.parse(errorText)
-          errorText = errorJson.detail || errorJson.error || errorText
+          const errorJson = await res.json()
+
+          if (errorJson.detail) {
+            errorText =
+              typeof errorJson.detail === 'object'
+                ? JSON.stringify(errorJson.detail, null, 2)
+                : errorJson.detail
+          } else {
+            errorText = JSON.stringify(errorJson, null, 2)
+          }
         } catch {
-          // manter raw text se não for JSON
+          errorText = await res.text()
         }
-        setOutput(
-          `Erro ${res.status}: ${
-            errorText || res.statusText || 'Resposta inesperada do servidor'
-          }`
-        )
+
+        setOutput(`Erro ${res.status}:\n${errorText}`)
         setIsError(true)
         setPseudocode('')
         setPython('')
@@ -177,6 +153,15 @@ export default function App() {
 
   const pickImage = useCallback(
     async camera => {
+      if (camera && Platform.OS !== 'web') {
+        const { status } = await ImagePicker.requestCameraPermissionsAsync()
+        if (status !== 'granted') {
+          setOutput('Permissão de câmera negada')
+          setIsError(true)
+          return
+        }
+      }
+
       const result = camera
         ? await ImagePicker.launchCameraAsync({
             quality: 1,
@@ -186,6 +171,7 @@ export default function App() {
             quality: 1,
             allowsEditing: false
           })
+
       if (!result.canceled && result.assets?.length) {
         const uri = result.assets[0].uri
         setImage(uri)
@@ -243,7 +229,6 @@ export default function App() {
                 resizeMode='contain'
               />
             </ScrollView>
-
             <View style={styles.modalBtnWrapper}>
               <TouchableOpacity
                 style={styles.modalBtn}
@@ -287,7 +272,6 @@ export default function App() {
             textStyle={styles.segmentedText}
             activeTextStyle={styles.segmentedTextActive}
           />
-
           <CodeBox
             title={view === 'pseudo' ? 'Pseudocódigo' : 'Python'}
             text={code}
