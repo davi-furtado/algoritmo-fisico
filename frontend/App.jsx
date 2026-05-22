@@ -43,7 +43,7 @@ export default function App() {
       })
 
   const fetchWithTimeout = async (resource, options = {}) => {
-    const { timeout = 15000, ...fetchOptions } = options
+    const { timeout = 20000, ...fetchOptions } = options
     const controller = new AbortController()
     const id = setTimeout(() => controller.abort(), timeout)
     try {
@@ -153,15 +153,6 @@ export default function App() {
 
   const pickImage = useCallback(
     async camera => {
-      if (camera && Platform.OS !== 'web') {
-        const { status } = await ImagePicker.requestCameraPermissionsAsync()
-        if (status !== 'granted') {
-          setOutput('Permissão de câmera negada')
-          setIsError(true)
-          return
-        }
-      }
-
       const result = camera
         ? await ImagePicker.launchCameraAsync({
             quality: 1,
@@ -171,7 +162,6 @@ export default function App() {
             quality: 1,
             allowsEditing: false
           })
-
       if (!result.canceled && result.assets?.length) {
         const uri = result.assets[0].uri
         setImage(uri)
