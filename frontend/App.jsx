@@ -177,16 +177,24 @@ export default function App() {
     <ScrollView style={styles.container}>
       <View style={styles.row}>
         {Platform.OS !== 'web' && (
+          <>
+            <InsertPhotoBtn
+              text='Câmera'
+              onPress={pickImage}
+              isMobile
+            />
+            <InsertPhotoBtn
+              text='Galeria'
+              onPress={pickImage}
+            />
+          </>
+        )}
+        {Platform.OS === 'web' && (
           <InsertPhotoBtn
-            text='Câmera'
+            text='Upload image'
             onPress={pickImage}
-            isMobile
           />
         )}
-        <InsertPhotoBtn
-          text='Galeria'
-          onPress={pickImage}
-        />
       </View>
 
       {image && (
