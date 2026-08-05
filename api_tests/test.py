@@ -1,15 +1,16 @@
 from requests import post
 
 img = input()
-url = 'http://SEU_IP_AQUI:8000/'
+url = "http://localhost:8000/"
 
-with open(img, 'rb') as file:
-    files = {'file': file}
+with open(img, "rb") as file:
+    files = {"file": file}
     response = post(url, files=files)
 
 if code := response.status_code == 200:
     result = response.json()
 else:
-    result = f'{code} | {response.text}'
+    result = f"{code} | {response.text}"
 
-if result: print(result)
+if result:
+    print(result)
