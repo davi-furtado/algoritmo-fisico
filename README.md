@@ -53,9 +53,6 @@ Aplicativo que escaneia pseudocódigos em blocos (algoritmos físicos) a partir 
 app-algoritmo-fisico/
 │
 ├── api/
-│   ├── dist/
-│   │   └── main.exe
-│   │
 │   ├── aruco_reader.py
 │   ├── blocks.json
 │   ├── conversor.py
@@ -114,9 +111,6 @@ app-algoritmo-fisico/
 │   └── styles.js
 │
 ├── interface/
-│   ├── dist/
-│   │   └── main.exe
-│   │
 │   ├── aruco_reader.py
 │   ├── blocks.json
 │   ├── conversor.py
