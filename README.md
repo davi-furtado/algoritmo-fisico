@@ -425,13 +425,3 @@ Script iterativo útil para processar e debugar um lote de imagens em sequência
   "python": "valor = 10\nvalor1 = 5\nif valor > valor1:\n    print(valor)\nelse:\n    print(valor1)"
 }
 ```
-
-# 🌐 Próximos Passos (Deploy)
-
-Como principal evolução do projeto, **pretendemos fazer o deploy na web do site e da API na Vercel**.
-
-Essa migração permitirá:
-
-- **Acesso Universal:** Qualquer pessoa poderá utilizar o aplicativo diretamente de um navegador (computador ou celular) sem precisar instalar dependências ou rodar o servidor localmente.
-- **Integração Fluida:** A Vercel permitirá hospedar tanto o front-end quanto a API FastAPI com alta performance e facilidade de integração contínua (CI/CD).
-- **Escalabilidade Educacional:** Mais professores e alunos terão facilidade de adotar a ferramenta nas escolas, utilizando apenas o link da aplicação hospedada.
