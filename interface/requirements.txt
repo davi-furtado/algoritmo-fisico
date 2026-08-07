@@ -1,5 +1,0 @@
-customtkinter
-opencv-python
-opencv-python-headless
-pillow
-pyinstaller

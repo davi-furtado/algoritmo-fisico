@@ -1,5 +1,6 @@
+customtkinter
 fastapi
 opencv-python
-opencv-python-headless
+Pillow
+python-multipart
 uvicorn
-pyinstaller

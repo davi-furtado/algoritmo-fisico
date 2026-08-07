@@ -1,4 +1,4 @@
-# pyinstaller --onefile --noconsole --add-data "blocks.json;." main.py
+from __future__ import annotations
 
 from multiprocessing import freeze_support
 from os import listdir, path, startfile
@@ -26,18 +26,7 @@ current_file: str = ""
 
 
 def set_text(textbox: ctk.CTkTextbox, text: str, max_lines: int | None = None) -> None:
-    """Atualiza o conteúdo de uma caixa de texto (`CTkTextbox`) do CustomTkinter.
-
-    A função altera temporariamente o estado da caixa para habilitado, limpa o texto
-    anterior, insere o novo conteúdo e ajusta opcionalmente a altura dinâmica do componente
-    com base no número de linhas.
-
-    Args:
-        textbox (ctk.CTkTextbox): O componente de caixa de texto a ser atualizado.
-        text (str): O texto que será inserido na caixa.
-        max_lines (int | None, optional): O limite máximo de linhas visíveis para o cálculo
-            de altura do componente. Defaults to None.
-    """
+    """Atualiza o conteúdo de uma caixa de texto (`CTkTextbox`) do CustomTkinter."""
     textbox.configure(state="normal")
     textbox.delete("1.0", "end")
     textbox.insert("1.0", text)
@@ -57,15 +46,7 @@ def clear_results() -> None:
 
 
 def show_result(data: dict[str, Any]) -> None:
-    """Exibe o resultado do processamento da imagem na interface gráfica.
-
-    Oculta o indicador de carregamento, reabilita os botões e preenche as caixas
-    de pseudocódigo, Python e saída (ou erro, caso ocorra alguma falha).
-
-    Args:
-        data (dict[str, Any]): Dicionário contendo as chaves 'pseudocode', 'python',
-            'output' ou 'error'.
-    """
+    """Exibe o resultado do processamento da imagem na interface gráfica."""
     loading_label.pack_forget()
     run_btn.configure(state="normal")
 
@@ -84,13 +65,7 @@ def show_result(data: dict[str, Any]) -> None:
 
 
 def run_processing(filepath: str) -> None:
-    """Executa o processamento da imagem em uma thread separada para não travar a GUI.
-
-    Agenda a atualização dos resultados na thread principal da interface por meio do método `after`.
-
-    Args:
-        filepath (str): Caminho absoluto da imagem a ser lida.
-    """
+    """Executa o processamento da imagem em uma thread separada para não travar a GUI."""
     result = read_img(filepath)
     window.after(0, show_result, result)
 
@@ -112,11 +87,7 @@ def update_preview() -> None:
 
 
 def on_img_menu_change(selected: str) -> None:
-    """Callback disparado quando o usuário escolhe um item no menu suspenso de imagens.
-
-    Args:
-        selected (str): Nome do arquivo selecionado no `CTkOptionMenu`.
-    """
+    """Callback disparado quando o usuário escolhe um item no menu suspenso de imagens."""
     global current_file
     if selected == "—" or not folder:
         return
@@ -200,21 +171,30 @@ def open_image() -> None:
         startfile(current_file)
 
 
-if __name__ == "__main__":
-    # Necessário para evitar recursão infinita de processos ao compilar com PyInstaller/multiprocessing
+def main() -> None:
+    """Inicializa a interface gráfica da aplicação."""
+    global window, loading_label, run_btn, preview_btn, path_label, sel_row, img_menu, output_title, output_box, pseudo_box, python_box
+
+    if ctk is None:
+        raise RuntimeError(
+            "customtkinter não está instalado. Instale-o para executar a interface gráfica."
+        )
+    if Image is None:
+        raise RuntimeError(
+            "Pillow não está instalado. Instale-o para executar a interface gráfica."
+        )
+
     freeze_support()
 
     ctk.set_appearance_mode("dark")
     ctk.set_default_color_theme("blue")
 
-    # Configuração da janela principal
     window = ctk.CTk()
     window.title("Algorítmo Físico")
     window.geometry("960x700")
     window.minsize(760, 520)
     window.state("zoomed")
 
-    # Cabeçalho da aplicação
     header_frame = ctk.CTkFrame(window, fg_color="transparent")
     header_frame.pack(fill="x", padx=16, pady=(16, 0))
 
@@ -299,7 +279,6 @@ if __name__ == "__main__":
         text_color="#f1c40f",
     )
 
-    # Área de exibição dos resultados (Grid de Pseudocódigo, Python e Saída)
     results = ctk.CTkFrame(window, fg_color="transparent")
     results.pack(fill="both", expand=True, padx=16, pady=(12, 16))
     results.grid_columnconfigure(0, weight=1)
@@ -363,5 +342,8 @@ if __name__ == "__main__":
     )
     python_box.grid(row=3, column=1, sticky="nsew", padx=(6, 0))
 
-    # Inicia o loop da interface gráfica
     window.mainloop()
+
+
+if __name__ == "__main__":
+    main()
