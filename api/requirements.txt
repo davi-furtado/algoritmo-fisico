@@ -1,6 +1,0 @@
-customtkinter
-fastapi
-opencv-python
-Pillow
-python-multipart
-uvicorn
