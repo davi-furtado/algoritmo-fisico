@@ -5,11 +5,16 @@ from os import listdir, path, startfile
 from threading import Thread
 from tkinter import filedialog
 from typing import Any
+import sys
+from pathlib import Path
 
 import customtkinter as ctk
 from PIL import Image
 
-from img_reader import read_img
+# Permite importar o pacote `core` que está na raiz do projeto
+sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
+
+from core import pipeline
 
 # Extensões de imagem suportadas pela aplicação
 EXTENSIONS = {".png", ".jpg", ".jpeg", ".webp", ".bmp"}
@@ -66,7 +71,7 @@ def show_result(data: dict[str, Any]) -> None:
 
 def run_processing(filepath: str) -> None:
     """Executa o processamento da imagem em uma thread separada para não travar a GUI."""
-    result = read_img(filepath)
+    result = pipeline.process_file(filepath)
     window.after(0, show_result, result)
 
 

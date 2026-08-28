@@ -1,5 +1,0 @@
-customtkinter
-fastapi
-Pillow
-Requests
-uvicorn

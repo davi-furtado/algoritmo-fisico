@@ -1,5 +1,5 @@
 from pathlib import Path
-import uuid
+import uuid, sys
 
 from cv2 import imread
 from fastapi import (
@@ -12,9 +12,10 @@ from fastapi import (
 )
 from fastapi.middleware.cors import CORSMiddleware
 
-from aruco_reader import read_arucos
-from conversor import indentPseudo, toPython
-from executor import safe_exec
+# Permite importar o pacote `core` que está na raiz do projeto
+sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
+
+from core import pipeline
 
 # Instância principal da aplicação FastAPI
 app = FastAPI(
@@ -39,7 +40,9 @@ app.add_middleware(
     description="Recebe uma imagem e retorna o código correspondente em pseudocódigo e Python.",
     response_description="Objeto JSON contendo a saída da execução, o pseudocódigo e o código Python traduzido.",
 )
-async def convert(request: Request, file: UploadFile = File(...)) -> dict[str, str]:
+async def convert(
+    request: Request, file: UploadFile = File(...)
+) -> dict[str, str | None]:
     """Processa o upload de uma imagem contendo marcadores ArUco de pseudocódigo.
 
     A função valida o tipo do arquivo, salva-o temporariamente em disco, lê os marcadores
@@ -65,7 +68,7 @@ async def convert(request: Request, file: UploadFile = File(...)) -> dict[str, s
     """
     content_type = (file.content_type or "").lower()
     supported_types = {
-        "image/jpeg": ".jpg",
+        "image/jpeg": ".jpeg",
         "image/jpg": ".jpg",
         "image/png": ".png",
         "image/bmp": ".bmp",
@@ -79,7 +82,7 @@ async def convert(request: Request, file: UploadFile = File(...)) -> dict[str, s
     if ext not in supported_types.values():
         raise HTTPException(
             status_code=status.HTTP_415_UNSUPPORTED_MEDIA_TYPE,
-            detail="Formato de arquivo não suportado. Use JPG, PNG, BMP ou WEBP.",
+            detail="Formato de arquivo não suportado. Use JPG, JPEG, PNG, BMP ou WEBP.",
         )
 
     # Criação do arquivo temporário com identificador único
@@ -91,49 +94,7 @@ async def convert(request: Request, file: UploadFile = File(...)) -> dict[str, s
         with open(filepath, "wb") as f:
             f.write(content)
 
-        img = imread(str(filepath))
-
-        if img is None:
-            raise HTTPException(
-                status_code=status.HTTP_422_UNPROCESSABLE_ENTITY,
-                detail="Imagem inválida ou corrompida.",
-            )
-
-        try:
-            pseudocode = read_arucos(img)
-
-            if pseudocode is None or pseudocode.strip() == "":
-                raise HTTPException(
-                    status_code=status.HTTP_422_UNPROCESSABLE_ENTITY,
-                    detail="Nenhum código detectado na imagem.",
-                )
-
-        except HTTPException:
-            raise
-        except Exception as e:
-            raise HTTPException(
-                status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
-                detail=f"Erro ao processar a imagem:\n{e}",
-            )
-
-        python = toPython(pseudocode)
-        pseudocode = indentPseudo(pseudocode)
-
-        try:
-            output = safe_exec(python)
-
-        except Exception as e:
-            raise HTTPException(
-                status_code=status.HTTP_400_BAD_REQUEST,
-                detail=f"Erro ao executar o código:\n{e}",
-            )
-
-        return {
-            "output": output,
-            "pseudocode": pseudocode,
-            "python": python,
-        }
-
+        return pipeline.process_file(filepath)
     except HTTPException:
         raise
     except Exception as e:

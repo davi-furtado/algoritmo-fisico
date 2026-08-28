@@ -1,0 +1,177 @@
+[
+  {
+    "path": "pics/Img-1.jpeg",
+    "pseudocode": "inicio\n  resultado vale 9\n  mostre resultado\nfim",
+    "python": "resultado = 9\nprint(resultado)",
+    "output": "9",
+    "error": null
+  },
+  {
+    "path": "pics/Img-10.jpeg",
+    "pseudocode": "inicio\n  repita 3\n    mostre 9\n  fim",
+    "python": "for _ in range(3):\n    print(9)",
+    "output": "9\n9\n9",
+    "error": null
+  },
+  {
+    "path": "pics/Img-11.jpeg",
+    "pseudocode": "inicio\n  valor1 vale 8\n  amigos vale 4\n  mostre valor1 / amigos\nfim",
+    "python": "valor1 = 8\namigos = 4\nprint(valor1 / amigos)",
+    "output": "2",
+    "error": null
+  },
+  {
+    "path": "pics/Img-12.jpeg",
+    "pseudocode": "inicio\n  resultado vale 8 / 4\n  mostre resultado\nfim",
+    "python": "resultado = 8 / 4\nprint(resultado)",
+    "output": "2",
+    "error": null
+  },
+  {
+    "path": "pics/Img-13.jpeg",
+    "pseudocode": "inicio\n  repita 3\n    mostre 9\n  fim",
+    "python": "for _ in range(3):\n    print(9)",
+    "output": "9\n9\n9",
+    "error": null
+  },
+  {
+    "path": "pics/Img-14.jpeg",
+    "pseudocode": "inicio\nfim",
+    "python": "",
+    "output": "",
+    "error": "O algoritmo rodou, mas n\u00e3o mostrou nada. Faltou o bloco \"mostre\" ou algum bloco ficou fora da foto?"
+  },
+  {
+    "path": "pics/Img-15.jpeg",
+    "pseudocode": "inicio\n  quantidade vale 9\n  mostre quantidade senao se\nfim enquanto\nfim",
+    "python": "quantidade = 9\nprint(quantidade senao se)",
+    "output": "9",
+    "error": null
+  },
+  {
+    "path": "pics/Img-16.jpeg",
+    "pseudocode": "inicio\n  valor1 vale 8\n  valor2 vale 3\n  quantidade vale valor1 + valor2\n  mostre quantidade\nfim",
+    "python": "valor1 = 8\nvalor2 = 3\nquantidade = valor1 + valor2\nprint(quantidade)",
+    "output": "11",
+    "error": null
+  },
+  {
+    "path": "pics/Img-17.jpeg",
+    "pseudocode": "inicio\n  resultado vale 9\n  mostre resultado\nfim",
+    "python": "resultado = 9\nprint(resultado)",
+    "output": "9",
+    "error": null
+  },
+  {
+    "path": "pics/Img-18.jpeg",
+    "pseudocode": "inicio\n  valor vale 4\n  mostre valor\nfim",
+    "python": "valor = 4\nprint(valor)",
+    "output": "4",
+    "error": null
+  },
+  {
+    "path": "pics/Img-19.jpeg",
+    "pseudocode": "inicio\nfim enquanto mostre valor2 se 15\ninicio\n  repita resultado 10 vale 1\n    mostre resultado\n  fim",
+    "python": "repita resultado 10 = 1\n    print(resultado)",
+    "output": "",
+    "error": "O bloco \"resultado\" foi usado antes de receber um valor."
+  },
+  {
+    "path": "pics/Img-2.jpeg",
+    "pseudocode": "inicio\n  valor vale 4\n  mostre valor\nfim",
+    "python": "valor = 4\nprint(valor)",
+    "output": "4",
+    "error": null
+  },
+  {
+    "path": "pics/Img-20.jpeg",
+    "pseudocode": "inicio\n  vale 3 + 8\n  mostre resultado\nfim",
+    "python": " = 3 + 8\nprint(resultado)",
+    "output": "",
+    "error": "Falta o bloco da vari\u00e1vel antes de \"vale\"."
+  },
+  {
+    "path": "pics/Img-21.jpeg",
+    "pseudocode": "inicio\n  mostre quantidade\nfim",
+    "python": "print(quantidade)",
+    "output": "",
+    "error": "O bloco \"quantidade\" foi usado antes de receber um valor."
+  },
+  {
+    "path": "pics/img-22.jpeg",
+    "pseudocode": "inicio\n  quantidade vale 5\n  mostre quantidade\nfim",
+    "python": "quantidade = 5\nprint(quantidade)",
+    "output": "5",
+    "error": null
+  },
+  {
+    "path": "pics/img-23.jpeg",
+    "pseudocode": "inicio\n  se 20 != 3\n    mostre 4\n  fim se\nfim",
+    "python": "if 20 != 3:\n    print(4)",
+    "output": "4",
+    "error": null
+  },
+  {
+    "path": "pics/img-24.jpeg",
+    "pseudocode": "inicio\n  enquanto 20 != 3\n    mostre 4\n  fim",
+    "python": "while 20 != 3:\n    print(4)",
+    "output": "4\n4\n4\n4\n4\n4\n4\n4\n...",
+    "error": "O algoritmo n\u00e3o parava sozinho \u2014 parece um la\u00e7o infinito."
+  },
+  {
+    "path": "pics/img-25.jpeg",
+    "pseudocode": "inicio\n  mostre 10 - 3\nfim",
+    "python": "print(10 - 3)",
+    "output": "7",
+    "error": null
+  },
+  {
+    "path": "pics/Img-3.jpeg",
+    "pseudocode": "inicio\n  quantidade vale 3\n  mostre quantidade\nfim",
+    "python": "quantidade = 3\nprint(quantidade)",
+    "output": "3",
+    "error": null
+  },
+  {
+    "path": "pics/Img-4.jpeg",
+    "pseudocode": "inicio\n  quantidade vale 9\n  mostre quantidade senao se\nfim enquanto\nfim",
+    "python": "quantidade = 9\nprint(quantidade senao se)",
+    "output": "9",
+    "error": null
+  },
+  {
+    "path": "pics/Img-5.jpeg",
+    "pseudocode": "inicio\nfim",
+    "python": "",
+    "output": "",
+    "error": "O algoritmo rodou, mas n\u00e3o mostrou nada. Faltou o bloco \"mostre\" ou algum bloco ficou fora da foto?"
+  },
+  {
+    "path": "pics/Img-6.jpeg",
+    "pseudocode": "inicio\n  resultado vale 10 - 3\n  mostre resultado\nfim",
+    "python": "resultado = 10 - 3\nprint(resultado)",
+    "output": "7",
+    "error": null
+  },
+  {
+    "path": "pics/Img-7.jpeg",
+    "pseudocode": "inicio\n  valor1 vale 8\n  valor2 vale 3\n  quantidade vale valor1 + valor2\n  mostre quantidade\nfim",
+    "python": "valor1 = 8\nvalor2 = 3\nquantidade = valor1 + valor2\nprint(quantidade)",
+    "output": "11",
+    "error": null
+  },
+  {
+    "path": "pics/Img-8.jpeg",
+    "pseudocode": "inicio\n  quantidade vale 7\n  mostre quantidade\nfim",
+    "python": "quantidade = 7\nprint(quantidade)",
+    "output": "7",
+    "error": null
+  },
+  {
+    "path": "pics/Img-9.jpeg",
+    "pseudocode": "inicio\n  valor1 vale 8\n  amigos vale 4\n  mostre valor1 / amigos\nfim",
+    "python": "valor1 = 8\namigos = 4\nprint(valor1 / amigos)",
+    "output": "2",
+    "error": null
+  }
+]

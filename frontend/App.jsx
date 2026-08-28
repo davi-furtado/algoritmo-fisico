@@ -111,14 +111,12 @@ export default function App() {
         if (data.error) {
           setOutput(data.error || 'Erro desconhecido')
           setIsError(true)
-          setPseudocode('')
-          setPython('')
         } else {
-          setPseudocode(data.pseudocode || '')
-          setPython(data.python || '')
-          setOutput(data.output || '')
           setIsError(false)
         }
+        setPseudocode(data.pseudocode || '')
+        setPython(data.python || '')
+        setOutput(data.output || '')
       } else {
         let errorText = ''
         try {
@@ -178,35 +176,19 @@ export default function App() {
       <View style={styles.row}>
         {Platform.OS !== 'web' && (
           <>
-            <InsertPhotoBtn
-              text='Câmera'
-              onPress={pickImage}
-              isMobile
-            />
-            <InsertPhotoBtn
-              text='Galeria'
-              onPress={pickImage}
-            />
+            <InsertPhotoBtn text='Câmera' onPress={pickImage} isMobile />
+            <InsertPhotoBtn text='Galeria' onPress={pickImage} />
           </>
         )}
         {Platform.OS === 'web' && (
-          <InsertPhotoBtn
-            text='Upload image'
-            onPress={pickImage}
-          />
+          <InsertPhotoBtn text='Upload image' onPress={pickImage} />
         )}
       </View>
 
       {image && (
         <>
-          <TouchableOpacity
-            onPress={() => setZoom(true)}
-            activeOpacity={0.7}
-          >
-            <Image
-              source={{ uri: image }}
-              style={styles.image}
-            />
+          <TouchableOpacity onPress={() => setZoom(true)} activeOpacity={0.7}>
+            <Image source={{ uri: image }} style={styles.image} />
           </TouchableOpacity>
 
           <Modal
