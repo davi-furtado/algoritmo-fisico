@@ -1,4 +1,5 @@
 from requests import post
+from json import dumps
 
 img = input()
 url = "http://localhost:8000/"
@@ -13,4 +14,4 @@ else:
     result = f"{code} | {response.text}"
 
 if result:
-    print(result)
+    print(dumps(result, indent=2))

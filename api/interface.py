@@ -1,5 +1,3 @@
-from __future__ import annotations
-
 from multiprocessing import freeze_support
 from os import listdir, path, startfile
 from threading import Thread
@@ -21,7 +19,7 @@ EXTENSIONS = {".png", ".jpg", ".jpeg", ".webp", ".bmp"}
 
 # Constantes de dimensionamento da interface do usuário
 LINE_HEIGHT = 28
-MAX_OUTPUT_LINES = 8
+MAX_OUTPUT_LINES = 15
 MAX_CODE_LINES = 20
 
 # Variáveis globais de controle de navegação
@@ -55,7 +53,7 @@ def show_result(data: dict[str, Any]) -> None:
     loading_label.pack_forget()
     run_btn.configure(state="normal")
 
-    if "error" in data:
+    if data["error"]:
         set_text(output_box, str(data["error"]), MAX_OUTPUT_LINES)
         output_title.configure(text="Erro", text_color="#e74c3c")
         output_box.configure(text_color="#e74c3c")
