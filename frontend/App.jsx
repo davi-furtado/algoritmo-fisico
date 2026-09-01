@@ -109,7 +109,14 @@ export default function App() {
         setJson(JSON.stringify(data, null, 2))
 
         if (data.error) {
-          setOutput(data.error || 'Erro desconhecido')
+          let errorMessage = ''
+          if (data.output) {
+            errorMessage = `${data.error}\n\nSaída:\n${data.output}`
+          } else {
+            errorMessage = data.error
+          }
+
+          setOutput(errorMessage)
           setIsError(true)
         } else {
           setIsError(false)

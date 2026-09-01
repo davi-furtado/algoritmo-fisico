@@ -1,5 +1,5 @@
 """
-interpreter.py — executa o pseudocódigo diretamente, sem gerar nem rodar
+interpreter.py - executa o pseudocódigo diretamente, sem gerar nem rodar
 código Python.
 
 POR QUE ISSO SUBSTITUI O executor.py ORIGINAL
@@ -46,9 +46,7 @@ def _valor_do_token(token, variaveis):
         return int(token)
     if token in variaveis:
         return variaveis[token]
-    raise ErroDeAlgoritmo(
-        f'O bloco "{token}" foi usado antes de receber um valor.'
-    )
+    raise ErroDeAlgoritmo(f'O bloco "{token}" foi usado antes de receber um valor.')
 
 
 def _aplicar(operador, a, b):
@@ -116,15 +114,14 @@ def avaliar(tokens, variaveis):
         raise ErroDeAlgoritmo("Faltou a expressão depois do comando.")
     valor = _avaliar_nivel(restante, variaveis, COMPARADORES, _soma)
     if restante:
-        raise ErroDeAlgoritmo(
-            f'Sobrou o bloco "{restante[0]}" no final da linha.'
-        )
+        raise ErroDeAlgoritmo(f'Sobrou o bloco "{restante[0]}" no final da linha.')
     return valor
 
 
 # --------------------------------------------------------------------------
 # Montagem da árvore de comandos
 # --------------------------------------------------------------------------
+
 
 def _separar(linha):
     tokens = linha.split()
@@ -136,8 +133,16 @@ def _separar(linha):
 
 
 CONTROLE = {
-    "inicio", "fim", "se", "senao", "senao se",
-    "fim se", "repita", "fim repita", "enquanto", "fim enquanto",
+    "inicio",
+    "fim",
+    "se",
+    "senao",
+    "senao se",
+    "fim se",
+    "repita",
+    "fim repita",
+    "enquanto",
+    "fim enquanto",
 }
 
 FECHADORES = {"fim", "fim se", "fim repita", "fim enquanto"}
@@ -177,9 +182,7 @@ def _fechar(linhas, posicao, esperado, abertura):
     if atual == "fim":
         return posicao
 
-    raise ErroDeAlgoritmo(
-        f'Faltou o bloco "{esperado}" para fechar o "{abertura}".'
-    )
+    raise ErroDeAlgoritmo(f'Faltou o bloco "{esperado}" para fechar o "{abertura}".')
 
 
 def montar(linhas, posicao=0, dentro_de=None):
@@ -263,6 +266,7 @@ def montar(linhas, posicao=0, dentro_de=None):
 # --------------------------------------------------------------------------
 # Execução
 # --------------------------------------------------------------------------
+
 
 class _Estado:
     def __init__(self):
@@ -348,7 +352,7 @@ def execute(pseudocode):
         _executar(comandos, estado)
     except _Interrompido:
         texto = "\n".join(estado.saida[:8])
-        aviso = "O algoritmo não parava sozinho — parece um laço infinito."
+        aviso = "O algoritmo não parou sozinho - parece um laço infinito."
         return (texto + "\n..." if texto else ""), aviso
     except ErroDeAlgoritmo as erro:
         return "", str(erro)

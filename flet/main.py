@@ -229,7 +229,7 @@ def main(pagina: ft.Page):
             ),
             bgcolor=DESTAQUE if ativo else "transparent",
             border_radius=10,
-            padding=ft.Padding(16, 9, 16, 9),
+            padding=ft.Padding(8, 4, 8, 4),
             ink=True,
             animate=ft.Animation(160, ft.AnimationCurve.EASE_OUT),
             shadow=(
@@ -241,13 +241,12 @@ def main(pagina: ft.Page):
         )
 
     toggle_botoes: list[ft.Control] = []
-    toggle = ft.Row(spacing=4)
+    toggle = ft.Row(spacing=0)
     toggle_fundo = ft.Container(
         content=toggle,
         bgcolor=CARTAO,
-        border=ft.Border.all(1, BORDA),
+        border=ft.Border.all(0, BORDA),
         border_radius=14,
-        padding=4,
     )
 
     painel_saida = ft.Container(
@@ -275,16 +274,16 @@ def main(pagina: ft.Page):
             [
                 ft.Row(
                     [
-                        ft.Container(expand=1),
                         toggle_fundo,
                         ft.Container(
                             content=botao_copiar_codigo,
-                            expand=1,
                             alignment=ft.Alignment(1, 0),
-                            padding=ft.Padding(0, 0, 24, 0),
+                            padding=ft.Padding(0, 0, 0, 0),
                         ),
                     ],
+                    alignment=ft.MainAxisAlignment.SPACE_BETWEEN,
                     vertical_alignment=ft.CrossAxisAlignment.CENTER,
+                    expand=True,
                 ),
                 caixa_codigo,
             ],
