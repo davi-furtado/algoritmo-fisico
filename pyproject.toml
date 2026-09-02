@@ -6,13 +6,9 @@ readme = "README.md"
 license = { file = "LICENSE" }
 requires-python = ">=3.13"
 dependencies = [
-    "customtkinter>=6.0.0",
     "fastapi>=0.141.1",
-    "flet[all]>=0.86.5",
     "numpy>=2.5.2",
     "opencv-python>=5.0.0.93",
-    "pillow>=12.3.0",
-    "pyletree>=2.7.0",
     "python-multipart>=0.0.32",
     "requests>=2.34.2",
     "uvicorn>=0.52.4",
