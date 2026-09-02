@@ -1,14 +1,13 @@
 [project]
 name = "algoritmo-fisico"
 version = "1.0.0"
-description = "Processa imagens com Algoritmos Físicos"
+description = "Processa imagens de pseudocódigos feitos com Algoritmos Físicos"
 readme = "README.md"
 license = { file = "LICENSE" }
 requires-python = ">=3.13"
 dependencies = [
     "customtkinter>=6.0.0",
     "fastapi>=0.141.1",
-    "flet[all]>=0.86.5",
     "numpy>=2.5.2",
     "opencv-python>=5.0.0.93",
     "pillow>=12.3.0",
