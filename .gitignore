@@ -1,8 +1,3 @@
-*.spec
-**/.venv
+.venv/
 **/.vscode/
 **/__pycache__/
-**/build/
-**/dist/
-frontend/.expo/
-frontend/node_modules/

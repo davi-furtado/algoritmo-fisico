@@ -1,0 +1,284 @@
+@font-face {
+  font-family: 'JetBrains Mono';
+  src: url('/assets/JetBrainsMonoNL-Bold.ttf') format('truetype');
+  font-weight: 700;
+  font-display: swap;
+}
+
+:root {
+  color: #dcdcdc;
+  background: #000;
+  font-family: Inter, system-ui, sans-serif;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  min-width: 320px;
+  background: #000;
+}
+
+button {
+  font: inherit;
+  cursor: pointer;
+}
+
+button:disabled {
+  cursor: not-allowed;
+  opacity: 0.45;
+}
+
+.app-shell {
+  min-height: 100vh;
+  padding: 32px 20px;
+  background: radial-gradient(circle at 50% -20%, #17244a 0, #000 45%);
+}
+
+.app-card {
+  width: min(860px, 100%);
+  margin: auto;
+}
+
+.app-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 24px;
+}
+
+.eyebrow {
+  margin: 0 0 8px;
+  color: #1760ff;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+}
+
+h1 {
+  margin: 0;
+  color: #fff;
+  font-size: clamp(28px, 5vw, 42px);
+}
+.app-header p:not(.eyebrow) {
+  margin: 8px 0 0;
+  color: #8b909a;
+}
+
+.status-dot {
+  width: 10px;
+  height: 10px;
+  margin-top: 8px;
+  border-radius: 50%;
+  background: #00ff00;
+  box-shadow: 0 0 14px #00ff00;
+}
+
+.action-button {
+  width: 100%;
+  padding: 15px 20px;
+  border: 0;
+  border-radius: 12px;
+  color: #fff;
+  background: #1760ff;
+  font-weight: 700;
+  box-shadow: 0 8px 24px #1760ff33;
+}
+
+.action-button.secondary {
+  background: #222528;
+}
+
+.preview-button {
+  position: relative;
+  display: block;
+  width: 100%;
+  margin-top: 20px;
+  padding: 0;
+  overflow: hidden;
+  border: 1px solid #303438;
+  border-radius: 12px;
+  background: #222528;
+}
+
+.preview-button img {
+  display: block;
+  width: 100%;
+  max-height: 360px;
+  object-fit: contain;
+}
+
+.preview-button span {
+  position: absolute;
+  right: 12px;
+  bottom: 12px;
+  padding: 6px 10px;
+  border-radius: 6px;
+  color: #fff;
+  background: #000b;
+  font-size: 12px;
+}
+
+.loading {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  margin: 20px 0;
+  color: #bfbfbf;
+}
+
+.spinner {
+  width: 18px;
+  height: 18px;
+  border: 2px solid #303438;
+  border-top-color: #1760ff;
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.panel {
+  margin-top: 20px;
+  padding: 16px;
+  border: 1px solid #303438;
+  border-radius: 12px;
+  background: #222528;
+  box-shadow: 0 8px 24px #0008;
+}
+
+.panel.error {
+  border-color: #ff5c61;
+}
+
+.panel-header,
+.code-toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.panel h2 {
+  margin: 0;
+  color: #bfbfbf;
+  font-size: 14px;
+}
+
+.icon-button {
+  width: 36px;
+  height: 36px;
+  border: 0;
+  border-radius: 8px;
+  color: #bfbfbf;
+  background: transparent;
+  font-size: 22px;
+}
+
+.icon-button:hover {
+  color: #fff;
+  background: #303438;
+}
+
+.code-content {
+  max-height: 340px;
+  margin: 14px 0 0;
+  overflow: auto;
+  color: #00ff00;
+  font:
+    700 13px/1.6 'JetBrains Mono',
+    monospace;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
+
+.code-panel .code-content {
+  color: #dcdcdc;
+}
+
+.toggle {
+  display: flex;
+  gap: 4px;
+  padding: 4px;
+  border: 1px solid #303438;
+  border-radius: 12px;
+  background: #1a1a1a;
+}
+
+.toggle button {
+  padding: 8px 14px;
+  border: 0;
+  border-radius: 8px;
+  color: #bfbfbf;
+  background: transparent;
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.toggle button.active {
+  color: #fff;
+  background: #1760ff;
+}
+
+.toast {
+  position: fixed;
+  right: 20px;
+  bottom: 20px;
+  margin: 0;
+  padding: 10px 14px;
+  border-radius: 8px;
+  color: #000;
+  background: #00ff00;
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.modal-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 2;
+  display: grid;
+  place-items: center;
+  padding: 30px;
+  background: #000e;
+}
+
+.modal-backdrop img {
+  max-width: 100%;
+  max-height: calc(100vh - 120px);
+  object-fit: contain;
+}
+
+.close-button {
+  position: fixed;
+  bottom: 28px;
+  padding: 12px 24px;
+  border: 0;
+  border-radius: 999px;
+  color: #fff;
+  background: #ff5c61;
+  font-weight: 700;
+}
+
+@media (max-width: 560px) {
+  .app-shell {
+    padding: 24px 14px;
+  }
+
+  .app-header p:not(.eyebrow) {
+    font-size: 14px;
+  }
+
+  .toggle button {
+    padding: 8px 9px;
+    font-size: 12px;
+  }
+}
+

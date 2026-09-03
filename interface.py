@@ -3,16 +3,9 @@ from os import listdir, path, startfile
 from threading import Thread
 from tkinter import filedialog
 from typing import Any
-import sys
-from pathlib import Path
-
+from core import pipeline
 import customtkinter as ctk
 from PIL import Image
-
-# Permite importar o pacote `core` que está na raiz do projeto
-sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
-
-from core import pipeline
 
 # Extensões de imagem suportadas pela aplicação
 EXTENSIONS = {".png", ".jpg", ".jpeg", ".webp", ".bmp"}
@@ -193,7 +186,7 @@ def main() -> None:
     ctk.set_default_color_theme("blue")
 
     window = ctk.CTk()
-    window.title("Algorítmo Físico")
+    window.title("Algoritmo Físico")
     window.geometry("960x700")
     window.minsize(760, 520)
     window.state("zoomed")

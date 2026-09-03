@@ -1,346 +1,230 @@
-<div align="center">
-  <h1>Algoritmo Físico</h1>
+# Algoritmo Físico
 
-  <img src="https://img.shields.io/badge/python-3670A0?style=for-the-badge&logo=python&logoColor=ffdd54">
-  <img src="https://img.shields.io/badge/FastAPI-005571?style=for-the-badge&logo=fastapi">
-  <img src="https://img.shields.io/badge/javascript-%23323330.svg?style=for-the-badge&logo=javascript&logoColor=%23F7DF1E">
-  <img src="https://img.shields.io/badge/react_native-%2320232a.svg?style=for-the-badge&logo=react&logoColor=%2361DAFB">
-</div>
+O **Algoritmo Físico** reconhece algoritmos montados com blocos físicos
+identificados por marcadores ArUco. A imagem é analisada, os blocos são
+reconstruídos como pseudocódigo, o algoritmo é convertido para Python e sua
+saída é exibida ao usuário.
 
-<p align="center">
-Aplicativo que escaneia pseudocódigos em blocos (algoritmos físicos) a partir de imagens e retorna o código equivalente em <b>Python</b> junto com a <b>saída da execução</b>.
-</p>
+O repositório contém três superfícies de uso:
 
-## 📋 Sumário
+- uma API HTTP em FastAPI;
+- um site em React com Vite;
+- uma interface desktop em CustomTkinter.
 
-- [✨ Funcionalidades](#-funcionalidades)
-- [📂 Estrutura do Projeto](#-estrutura-do-projeto)
-  - [Frontend](#frontend)
-  - [API](#api)
-  - [Interface Desktop](#interface-desktop)
-- [🚀 Como rodar?](#-como-rodar)
-  - [Frontend](#frontend-1)
-  - [API](#api-1)
-  - [Interface Desktop](#interface-desktop-1)
-- [🧱 Pasta de blocos físicos](#-pasta-de-blocos-físicos)
-- [🔄 Fluxo de funcionamento](#-fluxo-de-funcionamento)
-- [⚙️ Conversão de pseudocódigo](#-conversão-de-pseudocódigo)
-- [🧪 Pasta de testes](#-pasta-de-testes)
-- [📤 Exemplo de retorno da API](#-exemplo-de-retorno-da-api)
-- [🌐 Próximos Passos (Deploy)](#-próximos-passos-deploy)
+## Funcionalidades
 
-# ✨ Funcionalidades
+- Detecção de marcadores ArUco em imagens JPG, JPEG, PNG, BMP e WEBP.
+- Correção da orientação da foto e agrupamento proporcional dos blocos em
+  linhas.
+- Reconstrução e indentação do pseudocódigo.
+- Conversão do pseudocódigo reconhecido para Python.
+- Interpretação do algoritmo com limite de passos e limite de saída.
+- Mensagens de erro em português para algoritmos incompletos ou inválidos.
+- Upload de imagem pelo navegador, preview, visualização ampliada e cópia dos
+  resultados.
+- Seleção de uma imagem ou de uma pasta na interface desktop.
+- Materiais PDF para impressão dos blocos e exercícios de lógica.
 
-- Captura de imagem pela câmera ou galeria (mobile)
-- Seleção de imagem ou pasta com imagens (desktop)
-- Reconhecimento de marcadores **ArUco**
-- Conversão do pseudocódigo para Python
-- Execução do código gerado
-- Retorno do código e da saída (ou erro)
-- Indentação automática do pseudocódigo
-- Indentação automática do Python gerado
-- Visualização ampliada da imagem capturada (mobile)
-- **Preview da imagem** na interface, com opção de clicar para abrir no visualizador padrão do sistema (desktop)
-- Pseudocódigo e Python exibidos **lado a lado** (desktop)
-- Geração de executável `.exe` via PyInstaller (desktop)
+## Estrutura atual
 
-# 📂 Estrutura do Projeto
+A árvore foi revisada com `uv run pyletree -g`. O diretório `.git` e os
+artefatos gerados (`node_modules`, `frontend/dist` e caches locais) não são
+fontes do aplicativo e, por isso, estão omitidos da representação abaixo.
 
-## Frontend
-
-Tecnologias utilizadas:
-
-- React Native
-- Expo
-- JavaScript
-
-Responsável pela interface do aplicativo móvel, incluindo:
-
-- Captura ou seleção de imagens
-- Envio da imagem à API
-- Exibição do pseudocódigo reconhecido, Python gerado e saída da execução
-- Título dinâmico: **"Saída"** ou **"Erro"** conforme o retorno
-
-## API
-
-Tecnologias utilizadas:
-
-- Python
-- FastAPI
-- OpenCV (ArUco)
-
-A API é responsável por:
-
-1. Detectar os marcadores ArUco na imagem
-2. Reconstruir o pseudocódigo a partir dos marcadores
-3. Converter o pseudocódigo em Python
-4. Executar o código gerado
-5. Retornar o resultado para o aplicativo
-
-### Arquivos principais
-
-#### `main.py`
-
-API FastAPI que atua como ponto de entrada, responsável por:
-
-- Receber a imagem enviada pelo aplicativo
-- Orquestrar a detecção, conversão e execução chamando os módulos auxiliares
-- Retornar os resultados processados
-
-#### `aruco_reader.py`
-
-Módulo dedicado à visão computacional com OpenCV. Responsável por:
-
-- Detectar os marcadores ArUco na imagem
-- Reconstruir o texto do pseudocódigo baseado nas posições espaciais dos identificadores
-
-#### `executor.py`
-
-Ambiente isolado (via `multiprocessing`) projetado para:
-
-- Executar o código Python gerado
-- Prevenir loops infinitos ou tempo excessivo de execução através de um mecanismo de **timeout**
-- Capturar e interceptar a saída simulando a saída padrão (stdout) e os erros da execução
-
-#### `conversor.py`
-
-Arquivo responsável por converter o pseudocódigo em Python.
-
-#### `blocks.json`
-
-Define o **mapeamento entre IDs dos marcadores ArUco e comandos do pseudocódigo**.
-
-### Arquivos secundários
-
-#### `mono_return.py`
-
-API que tem um retorno único independente da imagem enviada. Pode ser usada para testar conectividade com o front-end sem processar imagens.
-
-#### `requirements.txt`
-
-Arquivo com todas as dependências usadas na API.
-
-## Interface Desktop
-
-Tecnologias utilizadas:
-
-- Python
-- CustomTkinter
-- OpenCV (ArUco)
-
-Interface gráfica para desktop que processa imagens **localmente**, sem depender da API. Permite:
-
-- Selecionar uma **imagem avulsa** ou uma **pasta com imagens**
-- Seletor dropdown para escolher a imagem da pasta
-- Exibição do pseudocódigo e Python **lado a lado**
-- Caixa de saída com título dinâmico: **"Saída"** em caso de sucesso ou **"Erro"** em caso de falha
-- **Preview da imagem** na interface, com opção de clicar para abrir no visualizador padrão do sistema
-- Interface maximizada por padrão (modo _zoomed_) para melhor visualização
-- Geração de executável `.exe` via PyInstaller
-
-A maioria dos módulos (como `aruco_reader`, `conversor` e `executor`) são compartilhados com a API, garantindo consistência no processamento.
-
-# 🚀 Como rodar?
+```text
+algoritmo-fisico/
+├── .gitignore
+├── .python-version
+├── LICENSE
+├── README.md
+├── pyproject.toml
+├── uv.lock
+├── api.py                         # API FastAPI e endpoint POST /
+├── interface.py                   # Interface desktop CustomTkinter
+├── blocks/
+│   ├── blocks.json                # Mapeamento dos IDs ArUco
+│   ├── blocks.pdf                 # Blocos físicos para impressão
+│   ├── problems.pdf               # Exercícios de lógica
+│   ├── generator.py               # Geração dos marcadores
+│   └── arucos/                    # PNGs dos marcadores gerados
+├── core/
+│   ├── blocks.json                # Mapeamento usado pelo núcleo
+│   ├── converter.py               # Limpeza e conversão para Python
+│   ├── interpreter.py             # Interpretador seguro do pseudocódigo
+│   ├── pipeline.py                # Entrada única do processamento
+│   └── reader.py                  # Leitura e ordenação dos ArUco
+├── frontend/
+│   ├── .gitignore
+│   ├── eslint.config.js
+│   ├── index.html
+│   ├── package.json
+│   ├── package-lock.json
+│   ├── vite.config.js
+│   ├── public/
+│   │   ├── favicon.svg
+│   │   └── icons.svg
+│   └── src/
+│       ├── App.jsx                # Interface web e integração com a API
+│       ├── index.css              # Layout e tema visual
+│       ├── main.jsx               # Ponto de entrada React
+│       └── assets/
+│           ├── hero.png
+│           ├── JetBrainsMonoNL-Bold.ttf
+│           ├── react.svg
+│           └── vite.svg
+├── pics/                          # Imagens de teste e exemplos
+└── tests/
+    ├── api.py                     # Testes da API
+    ├── api_multiple.py            # Testes da API com várias imagens
+    ├── core.py                    # Testes do núcleo
+    ├── core_multiple.py           # Testes do núcleo com várias imagens
+    └── results.json               # Resultados esperados ou registrados
+```
 
 ## Requisitos
 
-- Python 3.8 ou superior
-- Node.js 14 ou superior (para o mobile)
-- npm 6 ou superior (para o mobile)
+- Python 3.13 ou superior, conforme `.python-version` e `pyproject.toml`.
+- [uv](https://docs.astral.sh/uv/) para instalar e executar o ambiente Python.
+- Node.js e npm para o frontend.
 
-## Frontend
+As dependências Python incluem FastAPI, Uvicorn, OpenCV, NumPy, Pillow,
+CustomTkinter, Requests, python-multipart e pyletree. As dependências do site
+incluem React, React DOM, Vite e os plugins de ESLint.
 
-1. Crie o arquivo `frontend/.env` e coloque o endereço completo da sua API (incluindo o IP local e porta) na variável `API_URL` para que o aplicativo consiga comunicar com a API localmente. Deve ficar assim:
-   ```bash
-   API_URL=http://w.x.y.z:8000
-   ```
-2. Abra um terminal na pasta `mobile`
-3. Instale as dependências:
-   ```bash
-   npm install
-   ```
-4. Inicie o projeto Expo:
-   ```bash
-   npx expo start --port 6000
-   ```
-5. Para rodar no celular, baixe o aplicativo **Expo Go** e escaneie o QR code exibido.
+## Instalação
 
-## API
+Na raiz do repositório:
 
-1. Abra um terminal na pasta `api`
-2. Instale as dependências:
-   ```bash
-   pip install -r requirements.txt
-   ```
-3. Inicie a API:
-   ```bash
-   python main.py
-   ```
-   ou
-   ```bash
-   uvicorn main:app --host 0.0.0.0
-   ```
-
-## Interface Desktop
-
-1. Abra um terminal na pasta `interface`
-2. Instale as dependências:
-   ```bash
-   pip install -r requirements.txt
-   ```
-3. Execute a interface:
-   ```bash
-   python main.py
-   ```
-
-### Gerando o executável
-
-Para gerar um `.exe` standalone, use o PyInstaller dentro da pasta `interface`:
-
-```bash
-pip install pyinstaller
-pyinstaller --onefile --noconsole --add-data "blocks.json;." main.py
+```powershell
+uv sync
 ```
 
-O executável será gerado em `interface/dist/main.exe`. A própria aplicação se encarrega de resolver de forma robusta os caminhos dos arquivos embutidos pelo PyInstaller (como o `blocks.json`).
+Na pasta do site:
 
-# 🧱 Pasta de blocos físicos
+```powershell
+cd frontend
+npm install
+```
 
-O projeto possui uma pasta `blocks` com os materiais necessários para utilizar o sistema com **algoritmos físicos**.
+## Executando a API
 
-## `problems.pdf`
+Em um terminal, na raiz:
 
-PDF contendo **exercícios de lógica de programação**.
+```powershell
+uv run uvicorn api:app --reload --host 0.0.0.0 --port 8000
+```
 
-Os alunos podem resolver os problemas **montando algoritmos com os blocos físicos** e depois usar o aplicativo para verificar a solução.
+Também é possível iniciar diretamente:
 
-## `blocks.json`
+```powershell
+uv run python api.py
+```
 
-Arquivo que define o **mapeamento entre IDs de ArUco e palavras do pseudocódigo**.
+O endpoint de processamento é:
 
-Exemplo simplificado:
+```text
+POST /
+Content-Type: multipart/form-data
+Campo: file
+```
+
+Formatos aceitos: JPG, JPEG, PNG, BMP e WEBP. A resposta contém:
 
 ```json
 {
-  "21": "verdadeiro",
-  "22": "falso",
-  "23": "inicio",
-  "24": "fim",
-  "25": "mostre",
-  "26": "vale"
+  "pseudocode": "texto reconhecido",
+  "python": "código Python convertido",
+  "output": "saída da execução",
+  "error": null
 }
 ```
 
-Esse arquivo também existe na **API** e na **interface desktop**, onde é utilizado durante o reconhecimento dos blocos.
+Quando ocorre uma falha, `error` contém a mensagem em português. A
+documentação interativa fica em `http://localhost:8000/docs`.
 
-## `blocks.pdf`
+## Executando o site React
 
-PDF contendo os blocos físicos para impressão. Cada bloco tem um ID de ArUco correspondente, que é lido pela API para reconstruir o pseudocódigo.
+Com a API em execução, abra outro terminal:
 
-## `generator.py`
-
-Script responsável por **gerar automaticamente os marcadores ArUco utilizados no projeto**.
-
-Ele cria todas as imagens dentro da pasta `blocks/arucos`.
-
-# 🔄 Fluxo de funcionamento
-
-## Via API (Frontend)
-
-1. O frontend envia uma imagem para o endpoint `/`
-2. A API usa **OpenCV ArUco** para detectar os marcadores
-3. Os **IDs detectados são convertidos em palavras** usando `blocks.json`
-4. O pseudocódigo gerado é enviado para `toPython()` (`conversor.py`)
-5. O pseudocódigo é transformado em **código Python válido**
-6. A API executa o código usando `exec`
-7. A API retorna: pseudocódigo reconhecido, código Python gerado e saída da execução
-
-## Via Interface Desktop
-
-1. O usuário seleciona uma imagem ou pasta
-2. O `img_reader.py` processa a imagem **localmente** usando os mesmos módulos (`aruco_reader`, `conversor`, `executor`)
-3. Os resultados são exibidos diretamente na interface: pseudocódigo e Python lado a lado, com a saída (ou erro) acima
-
-# ⚙️ Conversão de pseudocódigo
-
-O arquivo `conversor.py` implementa um **parser simples baseado em tokens** responsável por:
-
-- Interpretar palavras do pseudocódigo
-- Gerar estruturas Python equivalentes
-- Controlar níveis de indentação
-- Converter expressões e operadores
-
-## Estruturas suportadas
-
-### Condicionais
-
-```
-se
-senao
-senao se
-fim se
+```powershell
+cd frontend
+npm run dev
 ```
 
-### Repetição
+O Vite informa a URL local, normalmente `http://localhost:5173`.
 
-```
-repita
-fim repita
-enquanto
-fim enquanto
-```
+O site usa `http://localhost:8000/` por padrão. Para alterar a URL da API,
+crie `frontend/.env`:
 
-### Saída
-
-```
-mostre _____
+```env
+VITE_API_URL=http://192.168.0.10:8000/
 ```
 
-### Variáveis
+Comandos disponíveis no `frontend/package.json`:
 
+```powershell
+npm run dev       # servidor de desenvolvimento
+npm run build     # build de produção em frontend/dist
+npm run preview   # servir o build localmente
+npm run lint      # ESLint
 ```
-_____ vale __
+
+A fonte `JetBrains Mono` usada nas caixas de código está em
+`frontend/src/assets/JetBrainsMonoNL-Bold.ttf`.
+
+## Executando a interface desktop
+
+Na raiz do repositório:
+
+```powershell
+uv run python interface.py
 ```
 
-### Operadores e Valores
+A interface permite escolher uma imagem avulsa ou uma pasta de imagens,
+selecionar o arquivo, visualizar o preview e processar o algoritmo localmente,
+sem depender da API.
 
-- **Operadores Matemáticos**: `+`, `-`, `*`, `/`, `%`, `//`
-- **Operadores Relacionais**: `==`, `!=`, `<`, `>`, `<=`, `>=`
-- **Valores Lógicos**: `verdadeiro` e `falso`
-- **Valores e Variáveis Pré-definidas**: Números de `0` a `20`, e as variáveis `quantidade`, `valor`, `valor1`, `valor2`, `amigos`, `resto` e `resultado`.
+## Testes
 
-## Indentação automática
+Os testes existentes podem ser executados pela raiz com:
 
-O conversor implementa um sistema de **controle de níveis de bloco**, permitindo:
-
-- Indentação correta do pseudocódigo
-- Geração de Python com indentação válida
-
-O projeto utiliza:
-
-- 2 espaços para pseudocódigo
-- 4 espaços para Python
-
-Isso garante que o código gerado seja **executável imediatamente**.
-
-# 🧪 Pasta de testes
-
-A pasta `api_tests` contém utilitários projetados para validar e debugar a API de conversão de imagens rapidamente, sem a necessidade de rodar o front-end simultaneamente. O ambiente de testes possui seu próprio arquivo `requirements.txt` e uma subpasta `pics/` com imagens de amostra para realizar testes pré-configurados.
-
-## `test.py`
-
-Script simples onde o usuário informa o caminho local de uma imagem por meio da entrada padrão do terminal. O script envia a imagem para o endpoint `/` local (porta `8000`) e imprime o JSON retornado pela API na tela.
-
-## `multiple_test.py`
-
-Script iterativo útil para processar e debugar um lote de imagens em sequência. Ele varre uma lista de caminhos de imagens (na variável iterável `paths`), as envia uma por vez para a API e compila os resultados (erros, pseudocódigo gerado e saídas em Python) num arquivo unificado independente chamado `results.json` na própria pasta.
-
-# 📤 Exemplo de retorno da API
-
-```json
-{
-  "output": "10",
-  "pseudocode": "inicio\n  valor vale 10\n  valor1 vale 5\n  se valor > valor1\n    mostre valor\n  senao\n    mostre valor1\n  fim se\nfim",
-  "python": "valor = 10\nvalor1 = 5\nif valor > valor1:\n    print(valor)\nelse:\n    print(valor1)"
-}
+```powershell
+uv run pytest
 ```
+
+Os arquivos `tests/core.py` e `tests/core_multiple.py` cobrem o processamento
+do núcleo. `tests/api.py` e `tests/api_multiple.py` cobrem o processamento
+pela API. `tests/results.json` contém os dados de referência usados pelos
+testes com múltiplas imagens.
+
+## Funcionamento interno
+
+1. `api.py` valida a extensão ou o MIME type e salva o upload temporariamente.
+2. `core.reader` detecta os ArUco, corrige a orientação e ordena os blocos.
+3. `core.converter` limpa o texto e gera o pseudocódigo indentado e o Python.
+4. `core.interpreter` monta a árvore de comandos e interpreta o algoritmo sem
+   executar texto arbitrário via `exec`.
+5. `core.pipeline` padroniza a resposta com `pseudocode`, `python`, `output` e
+   `error`.
+6. A API remove o arquivo temporário após o processamento.
+
+O interpretador suporta variáveis, expressões aritméticas, comparadores,
+condicionais (`se`, `senao se`, `senao`), repetições (`repita`) e laços
+(`enquanto`), de acordo com os blocos definidos em `core/blocks.json`.
+
+## Blocos físicos
+
+`blocks/blocks.json` relaciona cada ID do marcador com uma palavra do
+pseudocódigo. `blocks/arucos/` contém as imagens dos marcadores. Para gerar ou
+atualizar os marcadores:
+
+```powershell
+uv run python blocks/generator.py
+```
+
+`blocks/blocks.pdf` contém os blocos prontos para impressão e
+`blocks/problems.pdf` contém exercícios para montagem e teste dos algoritmos.
+
+## Licença
+
+Consulte o arquivo [LICENSE](LICENSE).

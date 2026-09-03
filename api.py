@@ -1,6 +1,5 @@
 from pathlib import Path
-import uuid, sys
-
+import uuid
 from cv2 import imread
 from fastapi import (
     FastAPI,
@@ -11,15 +10,11 @@ from fastapi import (
     status,
 )
 from fastapi.middleware.cors import CORSMiddleware
-
-# Permite importar o pacote `core` que está na raiz do projeto
-sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
-
 from core import pipeline
 
 # Instância principal da aplicação FastAPI
 app = FastAPI(
-    title="API Algorítmo Físico",
+    title="API Algoritmo Físico",
     description="API responsável por converter imagens de pseudocódigo em código Python e executá-lo.",
     version="1.0.0",
 )
@@ -112,4 +107,4 @@ async def convert(
 if __name__ == "__main__":
     from uvicorn import run
 
-    run(app, host="0.0.0.0")
+    run(app, host="0.0.0.0", reload=True)
