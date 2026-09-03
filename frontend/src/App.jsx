@@ -1,4 +1,5 @@
 import { useMemo, useRef, useState } from 'react'
+import { MdAdd, MdContentCopy } from 'react-icons/md'
 
 const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:8000/'
 
@@ -29,8 +30,9 @@ function CodePanel({ title, value, error = false, onCopy }) {
           onClick={onCopy}
           disabled={!value}
           title={`Copiar ${title.toLowerCase()}`}
+          aria-label={`Copiar ${title.toLowerCase()}`}
         >
-          ⧉
+          <MdContentCopy aria-hidden='true' focusable='false' />
         </button>
       </header>
       <pre className='code-content'>
@@ -123,7 +125,7 @@ export default function App() {
           onChange={chooseImage}
         />
         <ActionButton onClick={() => inputRef.current?.click()}>
-          ＋ Selecionar foto
+          <MdAdd aria-hidden='true' focusable='false' /> Selecionar foto
         </ActionButton>
 
         {image && (
@@ -178,8 +180,9 @@ export default function App() {
                 onClick={() => copyText(code)}
                 disabled={!code}
                 title='Copiar código'
+                aria-label='Copiar código'
               >
-                ⧉
+                <MdContentCopy aria-hidden='true' focusable='false' />
               </button>
             </div>
             <pre className='code-content'>{code}</pre>
@@ -209,4 +212,3 @@ export default function App() {
     </main>
   )
 }
-
