@@ -54,6 +54,7 @@ algoritmo-fisico/
 │   ├── pipeline.py                # Entrada única do processamento
 │   └── reader.py                  # Leitura e ordenação dos ArUco
 ├── frontend/
+│   ├── .env
 │   ├── .gitignore
 │   ├── eslint.config.js
 │   ├── index.html
@@ -62,16 +63,12 @@ algoritmo-fisico/
 │   ├── vite.config.js
 │   ├── public/
 │   │   ├── favicon.svg
-│   │   └── icons.svg
+│   │   ├── icons.svg
+│   │   └── JetBrainsMonoNL-Bold.ttf
 │   └── src/
 │       ├── App.jsx                # Interface web e integração com a API
 │       ├── index.css              # Layout e tema visual
-│       ├── main.jsx               # Ponto de entrada React
-│       └── assets/
-│           ├── hero.png
-│           ├── JetBrainsMonoNL-Bold.ttf
-│           ├── react.svg
-│           └── vite.svg
+│       └── main.jsx               # Ponto de entrada React
 ├── pics/                          # Imagens de teste e exemplos
 └── tests/
     ├── api.py                     # Testes da API
