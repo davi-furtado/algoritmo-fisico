@@ -107,4 +107,4 @@ async def convert(
 if __name__ == "__main__":
     from uvicorn import run
 
-    run("api:app", host="0.0.0.0", reload=True)
+    run("api:app", host="0.0.0.0")

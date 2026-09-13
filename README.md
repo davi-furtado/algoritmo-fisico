@@ -5,11 +5,10 @@ identificados por marcadores ArUco. A imagem é analisada, os blocos são
 reconstruídos como pseudocódigo, o algoritmo é convertido para Python e sua
 saída é exibida ao usuário.
 
-O repositório contém três superfícies de uso:
+O repositório contém duas superfícies de uso:
 
 - uma API HTTP em FastAPI;
-- um site em React com Vite;
-- uma interface desktop em CustomTkinter.
+- um site em React com Vite.
 
 ## Funcionalidades
 
@@ -22,7 +21,6 @@ O repositório contém três superfícies de uso:
 - Mensagens de erro em português para algoritmos incompletos ou inválidos.
 - Upload de imagem pelo navegador, preview, visualização ampliada e cópia dos
   resultados.
-- Seleção de uma imagem ou de uma pasta na interface desktop.
 - Materiais PDF para impressão dos blocos e exercícios de lógica.
 
 ## Estrutura atual
@@ -40,7 +38,6 @@ algoritmo-fisico/
 ├── pyproject.toml
 ├── uv.lock
 ├── api.py                         # API FastAPI e endpoint POST /
-├── interface.py                   # Interface desktop CustomTkinter
 ├── blocks/
 │   ├── blocks.json                # Mapeamento dos IDs ArUco
 │   ├── blocks.pdf                 # Blocos físicos para impressão
@@ -54,7 +51,7 @@ algoritmo-fisico/
 │   ├── pipeline.py                # Entrada única do processamento
 │   └── reader.py                  # Leitura e ordenação dos ArUco
 ├── frontend/
-│   ├── .env
+│   ├── .env.example
 │   ├── .gitignore
 │   ├── index.html
 │   ├── package.json
@@ -83,9 +80,8 @@ algoritmo-fisico/
 - [uv](https://docs.astral.sh/uv/) para instalar e executar o ambiente Python.
 - Node.js e npm para o frontend.
 
-As dependências Python incluem FastAPI, Uvicorn, OpenCV, NumPy, Pillow,
-CustomTkinter, Requests, python-multipart e pyletree. As dependências do site
-incluem React, React DOM, Vite e os plugins de ESLint.
+As dependências Python incluem FastAPI, Uvicorn, OpenCV, NumPy, Pillow, Requests e python-multipart. As dependências do site
+incluem React, React DOM, Vite e os plugins do Biome.
 
 ## Instalação
 
@@ -149,8 +145,7 @@ npm run dev
 
 O Vite informa a URL local, normalmente `http://localhost:5173`.
 
-O site usa `http://localhost:8000/` por padrão. Para alterar a URL da API,
-crie `frontend/.env`:
+O site usa `http://localhost:8000/` por padrão. Para alterar a URL da API, crie `frontend/.env`:
 
 ```env
 API_URL=http://192.168.0.10:8000/
@@ -162,36 +157,12 @@ Comandos disponíveis no `frontend/package.json`:
 npm run dev       # servidor de desenvolvimento
 npm run build     # build de produção em frontend/dist
 npm run preview   # servir o build localmente
-npm run lint      # ESLint
+npm run lint      # Biome
+npm run format    # Biome
 ```
 
 A fonte `JetBrains Mono` usada nas caixas de código está em
 `frontend/src/assets/JetBrainsMonoNL-Bold.ttf`.
-
-## Executando a interface desktop
-
-Na raiz do repositório:
-
-```powershell
-uv run python interface.py
-```
-
-A interface permite escolher uma imagem avulsa ou uma pasta de imagens,
-selecionar o arquivo, visualizar o preview e processar o algoritmo localmente,
-sem depender da API.
-
-## Testes
-
-Os testes existentes podem ser executados pela raiz com:
-
-```powershell
-uv run pytest
-```
-
-Os arquivos `tests/core.py` e `tests/core_multiple.py` cobrem o processamento
-do núcleo. `tests/api.py` e `tests/api_multiple.py` cobrem o processamento
-pela API. `tests/results.json` contém os dados de referência usados pelos
-testes com múltiplas imagens.
 
 ## Funcionamento interno
 
