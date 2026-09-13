@@ -11,6 +11,7 @@ function ActionButton({
 }) {
   return (
     <button
+      type="button"
       className={`action-button${secondary ? ' secondary' : ''}`}
       onClick={onClick}
       disabled={disabled}
@@ -23,19 +24,20 @@ function ActionButton({
 function CodePanel({ title, value, error = false, onCopy }) {
   return (
     <section className={`panel${error ? ' error' : ''}`}>
-      <header className='panel-header'>
+      <header className="panel-header">
         <h2>{title}</h2>
         <button
-          className='icon-button'
+          type="button"
+          className="icon-button"
           onClick={onCopy}
           disabled={!value}
           title={`Copiar ${title.toLowerCase()}`}
           aria-label={`Copiar ${title.toLowerCase()}`}
         >
-          <MdContentCopy aria-hidden='true' focusable='false' />
+          <MdContentCopy aria-hidden="true" focusable="false" />
         </button>
       </header>
-      <pre className='code-content'>
+      <pre className="code-content">
         {value || 'Nenhum resultado para exibir.'}
       </pre>
     </section>
@@ -108,41 +110,49 @@ export default function App() {
   }
 
   return (
-    <main className='app-shell'>
-      <div className='app-card'>
-        <header className='app-header'>
+    <main className="app-shell">
+      <div className="app-card">
+        <header className="app-header">
           <div>
-            <p className='eyebrow'>LEITOR DE ALGORITMOS FÍSICOS</p>
+            <p className="eyebrow">LEITOR DE ALGORITMOS FÍSICOS</p>
             <h1>Algoritmo Físico</h1>
             <p>
               Fotografe o algoritmo montado com os blocos e transforme-o em
               Python.
             </p>
           </div>
-          <span className='status-dot' aria-label='Aplicação pronta' />
+          <span
+            className="status-dot"
+            role="status"
+            aria-label="Aplicação pronta"
+          />
         </header>
 
         <input
           ref={inputRef}
-          type='file'
-          accept='image/jpeg,image/png,image/bmp,image/webp'
+          type="file"
+          accept="image/jpeg,image/png,image/bmp,image/webp"
           hidden
           onChange={chooseImage}
         />
         <ActionButton onClick={() => inputRef.current?.click()}>
-          <MdAdd aria-hidden='true' focusable='false' /> Selecionar foto
+          <MdAdd aria-hidden="true" focusable="false" /> Selecionar foto
         </ActionButton>
 
         {image && (
-          <button className='preview-button' onClick={() => setZoom(true)}>
-            <img src={image} alt='Pré-visualização do algoritmo' />
+          <button
+            type="button"
+            className="preview-button"
+            onClick={() => setZoom(true)}
+          >
+            <img src={image} alt="Pré-visualização do algoritmo" />
             <span>Clique para ampliar</span>
           </button>
         )}
 
         {loading && (
-          <div className='loading'>
-            <span className='spinner' /> Lendo os blocos...
+          <div className="loading">
+            <span className="spinner" /> Lendo os blocos...
           </div>
         )}
 
@@ -160,20 +170,22 @@ export default function App() {
         ) : null}
 
         {(result?.pseudocode || result?.python) && (
-          <section className='panel code-panel'>
-            <div className='code-toolbar'>
+          <section className="panel code-panel">
+            <div className="code-toolbar">
               <div
-                className='toggle'
-                role='tablist'
-                aria-label='Linguagem do código'
+                className="toggle"
+                role="tablist"
+                aria-label="Linguagem do código"
               >
                 <button
+                  type="button"
                   className={view === 'pseudo' ? 'active' : ''}
                   onClick={() => setView('pseudo')}
                 >
                   Pseudocódigo
                 </button>
                 <button
+                  type="button"
                   className={view === 'python' ? 'active' : ''}
                   onClick={() => setView('python')}
                 >
@@ -181,35 +193,46 @@ export default function App() {
                 </button>
               </div>
               <button
-                className='icon-button'
+                type="button"
+                className="icon-button"
                 onClick={() => copyText(code)}
                 disabled={!code}
-                title='Copiar código'
-                aria-label='Copiar código'
+                title="Copiar código"
+                aria-label="Copiar código"
               >
-                <MdContentCopy aria-hidden='true' focusable='false' />
+                <MdContentCopy aria-hidden="true" focusable="false" />
               </button>
             </div>
-            <pre className='code-content'>{code}</pre>
+            <pre className="code-content">{code}</pre>
           </section>
         )}
 
-        {message && <p className='toast'>{message}</p>}
+        {message && <p className="toast">{message}</p>}
       </div>
 
       {zoom && (
         <div
-          className='modal-backdrop'
-          role='dialog'
-          aria-modal='true'
-          onClick={() => setZoom(false)}
+          className="modal-backdrop"
+          role="dialog"
+          aria-modal="true"
+          tabIndex={-1}
+          onClick={(event) => {
+            if (event.target === event.currentTarget) {
+              setZoom(false)
+            }
+          }}
+          onKeyDown={(event) => {
+            if (event.key === 'Escape') {
+              setZoom(false)
+            }
+          }}
         >
-          <img
-            src={image}
-            alt='Algoritmo ampliado'
-            onClick={event => event.stopPropagation()}
-          />
-          <button className='close-button' onClick={() => setZoom(false)}>
+          <img src={image} alt="Algoritmo ampliado" />
+          <button
+            type="button"
+            className="close-button"
+            onClick={() => setZoom(false)}
+          >
             Fechar
           </button>
         </div>
@@ -217,4 +240,3 @@ export default function App() {
     </main>
   )
 }
-

@@ -1,6 +1,6 @@
 @font-face {
-  font-family: 'JetBrains Mono';
-  src: url('/JetBrainsMonoNL-Bold.ttf') format('truetype');
+  font-family: "JetBrains Mono";
+  src: url("/JetBrainsMonoNL-Bold.ttf") format("truetype");
   font-weight: 700;
   font-display: swap;
 }
@@ -32,7 +32,6 @@ html {
 }
 
 body {
-  min-height: 100vh;
   min-height: 100dvh;
   overscroll-behavior-y: none;
 }
@@ -49,10 +48,10 @@ button:disabled {
 }
 
 .app-shell {
-  min-height: 100vh;
   min-height: 100dvh;
-  padding: max(32px, env(safe-area-inset-top)) max(20px, env(safe-area-inset-right))
-    max(32px, env(safe-area-inset-bottom)) max(20px, env(safe-area-inset-left));
+  padding: max(32px, env(safe-area-inset-top))
+    max(20px, env(safe-area-inset-right)) max(32px, env(safe-area-inset-bottom))
+    max(20px, env(safe-area-inset-left));
   background: radial-gradient(circle at 50% -20%, #17244a 0, #000 45%);
 }
 
@@ -212,7 +211,7 @@ h1 {
   overflow: auto;
   color: #00ff00;
   font:
-    700 13px/1.6 'JetBrains Mono',
+    700 13px / 1.6 "JetBrains Mono",
     monospace;
   white-space: pre-wrap;
   overflow-wrap: anywhere;
@@ -288,8 +287,10 @@ h1 {
 
 @media (max-width: 560px) {
   .app-shell {
-    padding: max(24px, env(safe-area-inset-top)) max(14px, env(safe-area-inset-right))
-      max(24px, env(safe-area-inset-bottom)) max(14px, env(safe-area-inset-left));
+    padding: max(24px, env(safe-area-inset-top))
+      max(14px, env(safe-area-inset-right))
+      max(24px, env(safe-area-inset-bottom))
+      max(14px, env(safe-area-inset-left));
   }
 
   .app-header p:not(.eyebrow) {

@@ -51,7 +51,6 @@ algoritmo-fisico/
 │   ├── pipeline.py                # Entrada única do processamento
 │   └── reader.py                  # Leitura e ordenação dos ArUco
 ├── frontend/
-│   ├── .env.example
 │   ├── .gitignore
 │   ├── index.html
 │   ├── package.json
