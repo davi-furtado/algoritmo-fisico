@@ -1,4 +1,12 @@
+<div align="center">
+
 # Algoritmo Físico
+
+![React](https://img.shields.io/badge/react-%2320232a.svg?style=for-the-badge&logo=react&logoColor=%2361DAFB)
+![JavaScript](https://img.shields.io/badge/javascript-%23323330.svg?style=for-the-badge&logo=javascript&logoColor=%23F7DF1E)
+![Python](https://img.shields.io/badge/python-%233670A0.svg?style=for-the-badge&logo=python&logoColor=ffdd54)
+
+</div>
 
 O **Algoritmo Físico** reconhece algoritmos montados com blocos físicos
 identificados por marcadores ArUco. A imagem é analisada, os blocos são
@@ -193,4 +201,5 @@ uv run python blocks/generator.py
 
 ## Licença
 
-Consulte o arquivo [LICENSE](LICENSE).
+Este projeto está licenciado sob a Licença _MIT_.
+Para mais detalhes, consulte o arquivo [LICENSE](LICENSE).
