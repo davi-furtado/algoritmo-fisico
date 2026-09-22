@@ -2,7 +2,7 @@ import json
 import os
 
 import cv2
-import cv2.aruco as aruco
+from cv2 import aruco
 
 
 def sanitize_filename(text: str) -> str:

@@ -1,15 +1,17 @@
-from pathlib import Path
+import asyncio
 import uuid
-from cv2 import imread
+from pathlib import Path
+from typing import Annotated
+
 from fastapi import (
     FastAPI,
     File,
     HTTPException,
-    Request,
     UploadFile,
     status,
 )
 from fastapi.middleware.cors import CORSMiddleware
+
 from core import pipeline
 
 # Instância principal da aplicação FastAPI
@@ -35,9 +37,7 @@ app.add_middleware(
     description="Recebe uma imagem e retorna o código correspondente em pseudocódigo e Python.",
     response_description="Objeto JSON contendo a saída da execução, o pseudocódigo e o código Python traduzido.",
 )
-async def convert(
-    request: Request, file: UploadFile = File(...)
-) -> dict[str, str | None]:
+async def convert(file: Annotated[UploadFile, File(...)]) -> dict[str, str | None]:
     """Processa o upload de uma imagem contendo marcadores ArUco de pseudocódigo.
 
     A função valida o tipo do arquivo, salva-o temporariamente em disco, lê os marcadores
@@ -46,7 +46,6 @@ async def convert(
     ao final.
 
     Args:
-        request (Request): Objeto da requisição HTTP do FastAPI.
         file (UploadFile): O arquivo de imagem enviado via formulário (`multipart/form-data`).
 
     Raises:
@@ -86,17 +85,16 @@ async def convert(
 
     try:
         content = await file.read()
-        with open(filepath, "wb") as f:
-            f.write(content)
+        await asyncio.to_thread(filepath.write_bytes, content)
 
         return pipeline.process_file(filepath)
     except HTTPException:
         raise
-    except Exception as e:
+    except (OSError, RuntimeError, TypeError, ValueError) as error:
         raise HTTPException(
             status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
-            detail=str(e),
-        )
+            detail=str(error),
+        ) from error
 
     finally:
         # Garante a limpeza do arquivo de imagem do disco

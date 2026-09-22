@@ -1,6 +1,7 @@
-from os import listdir
-from httpx import post
 from json import dump
+from os import listdir
+
+from httpx import post
 
 url = "http://localhost:8000/"
 

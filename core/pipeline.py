@@ -22,7 +22,7 @@ def process_image(image) -> dict[str, str | None]:
 
     try:
         raw = reader.read_blocks(image)
-    except Exception as error:
+    except (cv2.error, IndexError, TypeError, ValueError) as error:
         result["error"] = f"Não consegui analisar a foto. ({error})"
         return result
 

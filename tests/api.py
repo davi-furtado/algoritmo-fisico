@@ -1,5 +1,6 @@
-from httpx import post
 from json import dumps
+
+from httpx import post
 
 img = input()
 url = "http://localhost:8000/"
