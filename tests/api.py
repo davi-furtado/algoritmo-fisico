@@ -1,4 +1,4 @@
-from requests import post
+from httpx import post
 from json import dumps
 
 img = input()

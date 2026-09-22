@@ -1,5 +1,5 @@
 from os import listdir
-from requests import post
+from httpx import post
 from json import dump
 
 url = "http://localhost:8000/"
