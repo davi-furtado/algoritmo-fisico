@@ -109,7 +109,7 @@ npm install
 Em um terminal, na raiz:
 
 ```powershell
-uv run uvicorn api:app --reload --host 0.0.0.0 --port 8000
+uv run fastapi run api.py
 ```
 
 Também é possível iniciar diretamente:
