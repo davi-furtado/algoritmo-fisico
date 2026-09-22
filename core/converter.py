@@ -25,11 +25,17 @@ ABREM_BLOCO = {"inicio", "se", "repita", "enquanto"}
 FECHAM_BLOCO = {"fim", "fim se", "fim repita", "fim enquanto"}
 
 COMANDOS = {
-    "inicio", "fim",
+    "inicio",
+    "fim",
     "mostre",
-    "se", "senao", "senao se", "fim se",
-    "repita", "fim repita",
-    "enquanto", "fim enquanto",
+    "se",
+    "senao",
+    "senao se",
+    "fim se",
+    "repita",
+    "fim repita",
+    "enquanto",
+    "fim enquanto",
 }
 
 
@@ -71,10 +77,10 @@ def clean(pseudocode):
     # O algoritmo é o que está entre o "inicio" e o "fim". Blocos soltos
     # largados antes ou depois na mesa são descartados aqui.
     if "inicio" in validas:
-        validas = validas[validas.index("inicio"):]
+        validas = validas[validas.index("inicio") :]
     if "fim" in validas:
         ultimo = len(validas) - 1 - validas[::-1].index("fim")
-        validas = validas[:ultimo + 1]
+        validas = validas[: ultimo + 1]
 
     return "\n".join(validas)
 
@@ -109,9 +115,7 @@ def indent_pseudocode(pseudocode):
         linhas.append("fim")
 
     niveis = indentation_levels(linhas)
-    return "\n".join(
-        " " * (n * RECUO_PSEUDO) + l for l, n in zip(linhas, niveis)
-    )
+    return "\n".join(" " * (n * RECUO_PSEUDO) + l for l, n in zip(linhas, niveis))
 
 
 def _expr_para_python(expressao):

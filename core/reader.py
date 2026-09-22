@@ -63,6 +63,7 @@ _detector = cv2.aruco.ArucoDetector(
 # Leitura
 # --------------------------------------------------------------------------
 
+
 def _orientacao_media(cantos):
     """Ângulo (radianos) da direção 'direita' média dos marcadores."""
     soma_x = soma_y = 0.0
@@ -132,9 +133,7 @@ def read_blocks(image):
     texto = []
     for linha in linhas:
         linha["itens"].sort(key=lambda item: item[0])
-        palavras = [
-            BLOCOS[str(m)] for _, m in linha["itens"] if str(m) in BLOCOS
-        ]
+        palavras = [BLOCOS[str(m)] for _, m in linha["itens"] if str(m) in BLOCOS]
         if palavras:
             texto.append(" ".join(palavras))
 
