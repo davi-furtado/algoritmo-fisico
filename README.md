@@ -87,8 +87,7 @@ algoritmo-fisico/
 - [uv](https://docs.astral.sh/uv/) para instalar e executar o ambiente Python.
 - Node.js e npm para o frontend.
 
-As dependências Python incluem FastAPI, Uvicorn, OpenCV, NumPy, Pillow, Requests e python-multipart. As dependências do site
-incluem React, React DOM, Vite e os plugins do Biome.
+As dependências Python incluem FastAPI[standard], OpenCV, NumPy e Pillow. As dependências do site incluem React, React DOM, Vite e os plugins do Biome.
 
 ## Instalação
 
