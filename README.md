@@ -146,7 +146,7 @@ Com a API em execução, abra outro terminal:
 
 ```powershell
 cd frontend
-npm run dev
+npm run dev -- --host 0.0.0.0
 ```
 
 O Vite informa a URL local, normalmente `http://localhost:5173`.
