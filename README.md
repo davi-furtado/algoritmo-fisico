@@ -71,7 +71,10 @@ algoritmo-fisico/
 │   └── src/
 │       ├── App.jsx                # Interface web e integração com a API
 │       ├── index.css              # Layout e tema visual
-│       └── main.jsx               # Ponto de entrada React
+│       ├── main.jsx               # Ponto de entrada React
+|       └── components/            # Componentes React
+│           ├── ActionButton.jsx
+│           └── CodePanel.jsx
 ├── pics/                          # Imagens de teste e exemplos
 └── tests/
     ├── api.py                     # Testes da API

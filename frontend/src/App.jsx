@@ -1,48 +1,9 @@
 import { useMemo, useRef, useState } from 'react'
 import { MdAdd, MdContentCopy } from 'react-icons/md'
+import { ActionButton } from './components/ActionButton'
+import { CodePanel } from './components/CodePanel'
 
 const API_URL = `${(import.meta.env.VITE_API_URL || 'http://localhost:8000').replace(/\/+$/, '')}/`
-
-function ActionButton({
-  children,
-  onClick,
-  secondary = false,
-  disabled = false
-}) {
-  return (
-    <button
-      type="button"
-      className={`action-button${secondary ? ' secondary' : ''}`}
-      onClick={onClick}
-      disabled={disabled}
-    >
-      {children}
-    </button>
-  )
-}
-
-function CodePanel({ title, value, error = false, onCopy }) {
-  return (
-    <section className={`panel${error ? ' error' : ''}`}>
-      <header className="panel-header">
-        <h2>{title}</h2>
-        <button
-          type="button"
-          className="icon-button"
-          onClick={onCopy}
-          disabled={!value}
-          title={`Copiar ${title.toLowerCase()}`}
-          aria-label={`Copiar ${title.toLowerCase()}`}
-        >
-          <MdContentCopy aria-hidden="true" focusable="false" />
-        </button>
-      </header>
-      <pre className="code-content">
-        {value || 'Nenhum resultado para exibir.'}
-      </pre>
-    </section>
-  )
-}
 
 export default function App() {
   const inputRef = useRef(null)
