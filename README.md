@@ -151,10 +151,10 @@ npm run dev
 
 O Vite informa a URL local, normalmente `http://localhost:5173`.
 
-O site usa `http://localhost:8000/` por padrão. Para alterar a URL da API, crie `frontend/.env`:
+O site usa `http://localhost:8000/` por padrão. Para alterar a URL da API, crie `frontend/.env` com a seguinte linha:
 
 ```env
-API_URL=http://192.168.0.10:8000/
+VITE_API_URL=http://192.168.0.10:8000/
 ```
 
 Comandos disponíveis no `frontend/package.json`:
@@ -165,6 +165,7 @@ npm run build     # build de produção em frontend/dist
 npm run preview   # servir o build localmente
 npm run lint      # Biome
 npm run format    # Biome
+npm run check     # Biome
 ```
 
 A fonte `JetBrains Mono` usada nas caixas de código está em
