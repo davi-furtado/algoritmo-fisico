@@ -145,11 +145,22 @@ documentação interativa fica em `http://localhost:8000/docs`.
 
 ## Executando o site React
 
-Com a API em execução, abra outro terminal:
+Com a API em execução, abra outro terminal e execute:
 
 ```powershell
 cd frontend
-npm run dev -- --host 0.0.0.0
+```
+
+E em seguida:
+
+```powershell
+npm run dev
+```
+
+ou
+
+```powershell
+npx vite
 ```
 
 O Vite informa a URL local, normalmente `http://localhost:5173`.

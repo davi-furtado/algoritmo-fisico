@@ -81,7 +81,6 @@ app = FastAPI(
     description="API responsável por converter imagens de pseudocódigo em código Python e executá-lo.",
     version="1.0.0",
 )
-
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["*"],
