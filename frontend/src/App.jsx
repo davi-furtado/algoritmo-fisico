@@ -1,4 +1,4 @@
-import { useMemo, useRef, useState } from 'react'
+import { useEffect, useMemo, useRef, useState } from 'react'
 import { MdAdd, MdContentCopy } from 'react-icons/md'
 import { ActionButton } from './components/ActionButton'
 import { CodePanel } from './components/CodePanel'
@@ -7,6 +7,9 @@ const API_URL = `${(import.meta.env.VITE_API_URL || 'http://localhost:8000').rep
 
 export default function App() {
   const inputRef = useRef(null)
+  const modalRef = useRef(null)
+  const toastTimeoutRef = useRef(null)
+
   const [image, setImage] = useState(null)
   const [result, setResult] = useState(null)
   const [view, setView] = useState('pseudo')
@@ -19,9 +22,32 @@ export default function App() {
     [result, view]
   )
 
+  // Gerencia o foco do modal para a tecla Escape funcionar
+  useEffect(() => {
+    if (zoom) {
+      modalRef.current?.focus()
+    }
+  }, [zoom])
+
+  function showToast(text) {
+    if (toastTimeoutRef.current) {
+      clearTimeout(toastTimeoutRef.current)
+    }
+    setMessage(text)
+    toastTimeoutRef.current = setTimeout(() => {
+      setMessage('')
+    }, 1800)
+  }
+
   async function processImage(file) {
     if (!file) return
-    setImage(URL.createObjectURL(file))
+
+    // Libera a memória da imagem anterior antes de carregar a nova
+    setImage((prevImage) => {
+      if (prevImage) URL.revokeObjectURL(prevImage)
+      return URL.createObjectURL(file)
+    })
+
     setResult(null)
     setMessage('')
     setLoading(true)
@@ -32,6 +58,7 @@ export default function App() {
     try {
       const response = await fetch(API_URL, { method: 'POST', body: form })
       const data = await response.json()
+
       if (!response.ok) {
         throw new Error(
           typeof data.detail === 'string'
@@ -39,6 +66,7 @@ export default function App() {
             : JSON.stringify(data.detail || data)
         )
       }
+
       setResult(data)
       setView('pseudo')
     } catch (error) {
@@ -62,11 +90,9 @@ export default function App() {
     if (!value) return
     try {
       await navigator.clipboard.writeText(value)
-      setMessage('Copiado para a área de transferência.')
-      window.setTimeout(() => setMessage(''), 1800)
+      showToast('Copiado para a área de transferência.')
     } catch {
-      setMessage('Não foi possível copiar o conteúdo.')
-      window.setTimeout(() => setMessage(''), 1800)
+      showToast('Não foi possível copiar o conteúdo.')
     }
   }
 
@@ -173,6 +199,7 @@ export default function App() {
 
       {zoom && (
         <div
+          ref={modalRef}
           className="modal-backdrop"
           role="dialog"
           aria-modal="true"

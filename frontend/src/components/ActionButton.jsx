@@ -2,14 +2,30 @@ export function ActionButton({
   children,
   onClick,
   secondary = false,
-  disabled = false
+  disabled = false,
+  className = '',
+  ...props
 }) {
+  const handleClick = (event) => {
+    if (disabled) return
+    onClick?.(event)
+  }
+
+  const combinedClassName = [
+    'action-button',
+    secondary ? 'secondary' : '',
+    className
+  ]
+    .filter(Boolean)
+    .join(' ')
+
   return (
     <button
       type="button"
-      className={`action-button${secondary ? ' secondary' : ''}`}
-      onClick={onClick}
+      className={combinedClassName}
+      onClick={handleClick}
       disabled={disabled}
+      {...props}
     >
       {children}
     </button>
