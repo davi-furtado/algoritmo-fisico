@@ -8,11 +8,7 @@ export function CodePanel({
   className = '',
   ...props
 }) {
-  const panelClassName = [
-    'panel',
-    error ? 'error' : '',
-    className
-  ]
+  const panelClassName = ['panel', error ? 'error' : '', className]
     .filter(Boolean)
     .join(' ')
 
@@ -36,11 +32,7 @@ export function CodePanel({
           <MdContentCopy aria-hidden="true" focusable="false" />
         </button>
       </header>
-      <pre
-        className="code-content"
-        tabIndex={0}
-        aria-live={error ? 'assertive' : 'polite'}
-      >
+      <pre className="code-content" aria-live={error ? 'assertive' : 'polite'}>
         {value || 'Nenhum resultado para exibir.'}
       </pre>
     </section>

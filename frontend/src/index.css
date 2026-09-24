@@ -70,7 +70,7 @@ button:disabled {
 .eyebrow {
   margin: 0 0 8px;
   color: #1760ff;
-  font-size: 11px;
+  font-size: 13px;
   font-weight: 700;
   letter-spacing: 0.14em;
 }
@@ -78,7 +78,7 @@ button:disabled {
 h1 {
   margin: 0;
   color: #fff;
-  font-size: clamp(28px, 5vw, 42px);
+  font-size: clamp(30px, 5vw, 44px);
 }
 .app-header p:not(.eyebrow) {
   margin: 8px 0 0;
@@ -136,7 +136,7 @@ h1 {
   border-radius: 6px;
   color: #fff;
   background: #000b;
-  font-size: 12px;
+  font-size: 14px;
 }
 
 .loading {
@@ -187,7 +187,7 @@ h1 {
 .panel h2 {
   margin: 0;
   color: #bfbfbf;
-  font-size: 14px;
+  font-size: 16px;
 }
 
 .icon-button {
@@ -197,7 +197,7 @@ h1 {
   border-radius: 8px;
   color: #bfbfbf;
   background: transparent;
-  font-size: 22px;
+  font-size: 24px;
 }
 
 .icon-button:hover {
@@ -236,7 +236,7 @@ h1 {
   border-radius: 8px;
   color: #bfbfbf;
   background: transparent;
-  font-size: 13px;
+  font-size: 15px;
   font-weight: 700;
 }
 
@@ -254,7 +254,7 @@ h1 {
   border-radius: 8px;
   color: #000;
   background: #00ff00;
-  font-size: 13px;
+  font-size: 15px;
   font-weight: 700;
 }
 
@@ -294,11 +294,11 @@ h1 {
   }
 
   .app-header p:not(.eyebrow) {
-    font-size: 14px;
+    font-size: 16px;
   }
 
   .toggle button {
     padding: 8px 9px;
-    font-size: 12px;
+    font-size: 14px;
   }
 }
