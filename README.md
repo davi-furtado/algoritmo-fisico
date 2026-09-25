@@ -118,7 +118,7 @@ uv run fastapi run api.py
 Também é possível iniciar diretamente:
 
 ```powershell
-uv run python api.py
+uv run api.py
 ```
 
 O endpoint de processamento é:
